@@ -29,8 +29,9 @@ STATUS_LABELS = {
     "deal": "Deal", "on_hold": "On hold", "dropped": "Dropped",
 }
 KIND_LABELS = {
-    "target_parcel": "Target parcel", "ripe_parcel": "Ripe parcel",
-    "hospitality": "Hospitality", "developer": "Developer",
+    "parcel": "Land parcel",
+    "hospitality": "Hospitality",
+    "developer": "Developer",
 }
 
 app = Flask(__name__)

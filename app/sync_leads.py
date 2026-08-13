@@ -84,11 +84,14 @@ def lead_rows_for_city(city):
     book = load_contacts(d)
     rows = []
 
+    # Target parcels (new/non-native developers) and ripe parcels overlap heavily
+    # and often fully — both become one team-facing kind, 'parcel'. Targets are
+    # imported first so their need_score priority wins on shared licence keys.
     for r in read_csv(d / "target_parcels_new_developers.csv"):
         dev = r.get("developer_group") or r.get("developer_raw") or "Unknown developer"
         emails, phones = find_contacts(book, r.get("developer_group"), r.get("developer_raw"))
         rows.append(dict(
-            kind="target_parcel", source_key=r["licence_no"], title=dev,
+            kind="parcel", source_key=r["licence_no"], title=dev,
             subtitle=f"{r.get('purpose','')} · {r.get('area_acre','?')} ac · "
                      f"Sector {r.get('sector') or '—'} · licence {r['licence_no']} "
                      f"({r.get('issue_date','')})",
@@ -99,7 +102,7 @@ def lead_rows_for_city(city):
         dev = r.get("developer_group") or r.get("developer_raw") or "Unknown developer"
         emails, phones = find_contacts(book, r.get("developer_group"), r.get("developer_raw"))
         rows.append(dict(
-            kind="ripe_parcel", source_key=r["licence_no"], title=dev,
+            kind="parcel", source_key=r["licence_no"], title=dev,
             subtitle=f"{r.get('purpose','')} · {r.get('area_acre','?')} ac · "
                      f"Sector {r.get('sector') or '—'} · licence {r['licence_no']} "
                      f"({r.get('issue_date','')})",
@@ -128,8 +131,6 @@ def lead_rows_for_city(city):
 def sync_city(cx, city, batch_tag):
     added = 0
     for lead in lead_rows_for_city(city):
-        # target_parcel and ripe_parcel share licence_no keys; whichever kind is
-        # imported first (target first = higher signal) wins via the unique index.
         cur = cx.execute(
             """INSERT OR IGNORE INTO leads
                (city, kind, source_key, title, subtitle, priority,

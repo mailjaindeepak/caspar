@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS cities (
 CREATE TABLE IF NOT EXISTS leads (
     id              INTEGER PRIMARY KEY,
     city            TEXT NOT NULL REFERENCES cities(city),
-    kind            TEXT NOT NULL,                -- target_parcel | ripe_parcel | hospitality | developer
+    kind            TEXT NOT NULL,                -- parcel | hospitality | developer
     source_key      TEXT NOT NULL,                -- licence_no / clu_file_no / dev:<name>
     title           TEXT NOT NULL,
     subtitle        TEXT,
