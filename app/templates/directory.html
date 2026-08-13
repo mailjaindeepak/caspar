@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ which|title }} — {{ c['city']|title }}{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('city_page', city=c['city']) }}">&larr; {{ c['city']|title }}</a></p>
+<h1>{{ c['city']|title }} — {{ which|title }}</h1>
+<div class="scroll-x">
+<table>
+  <tr>{% for col in cols %}<th>{{ col }}</th>{% endfor %}</tr>
+  {% for r in rows %}
+  <tr>{% for col in cols %}<td class="small">{{ r[col] }}</td>{% endfor %}</tr>
+  {% else %}
+  <tr><td class="muted">Nothing here yet.</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}{{ c['city']|title }} — Caspar Leads{% endblock %}
+{% block content %}
+<h1>{{ c['city']|title }}
+  {% if not c['released'] %}<span class="badge">hidden from team</span>{% endif %}
+</h1>
+<p class="muted small">
+  {{ leads|length }} leads shown{% if latest_batch %} · latest batch {{ latest_batch }}{% endif %} ·
+  <a href="{{ url_for('directory', city=c['city'], which='contacts') }}">Contacts directory</a> ·
+  <a href="{{ url_for('directory', city=c['city'], which='gatekeepers') }}">Gatekeepers</a>
+</p>
+
+<form class="filters" method="get">
+  <select name="kind" onchange="this.form.submit()">
+    <option value="">All kinds</option>
+    {% for k, label in KIND_LABELS.items() %}
+    <option value="{{ k }}" {{ 'selected' if kind==k }}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <select name="status" onchange="this.form.submit()">
+    <option value="">All statuses</option>
+    {% for s in STATUSES %}
+    <option value="{{ s }}" {{ 'selected' if status==s }}>{{ STATUS_LABELS[s] }}</option>
+    {% endfor %}
+  </select>
+  <select name="assignee" onchange="this.form.submit()">
+    <option value="">Anyone</option>
+    <option value="me" {{ 'selected' if assignee=='me' }}>Assigned to me</option>
+    <option value="none" {{ 'selected' if assignee=='none' }}>Unassigned</option>
+  </select>
+</form>
+
+<table>
+  <tr><th>Priority</th><th>Lead</th><th>Kind</th><th>Status</th><th>Assignee</th><th>Batch</th></tr>
+  {% for l in leads %}
+  <tr class="lead-row" onclick="location='{{ url_for('lead_page', lead_id=l['id']) }}'">
+    <td>{% if l['priority'] is not none %}<span class="prio">{{ '%.0f'|format(l['priority']) }}</span>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td><a href="{{ url_for('lead_page', lead_id=l['id']) }}">{{ l['title'] }}</a>
+        <div class="muted small">{{ l['subtitle'] }}</div></td>
+    <td><span class="badge kind">{{ KIND_LABELS[l['kind']] }}</span></td>
+    <td><span class="badge status-{{ l['status'] }}">{{ STATUS_LABELS[l['status']] }}</span></td>
+    <td class="small">{{ l['assignee_name'] or '' }}</td>
+    <td class="small muted">{{ l['batch_tag'] }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="6" class="muted">No leads match these filters.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

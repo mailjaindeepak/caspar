@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Admin — Caspar Leads{% endblock %}
+{% block content %}
+<h1>Admin</h1>
+
+<div class="card">
+  <h2 style="margin-top:0">Cities</h2>
+  <table>
+    <tr><th>City</th><th>Visible to team</th><th>Leads</th><th>Released at</th><th></th></tr>
+    {% for c in cities %}
+    <tr>
+      <td>{{ c['city']|title }}</td>
+      <td>{% if c['released'] %}<span class="badge status-new">live</span>{% else %}<span class="badge">hidden</span>{% endif %}</td>
+      <td>{{ c['n'] }}</td>
+      <td class="small muted">{{ c['released_at'] or '' }}</td>
+      <td>
+        <form class="inline" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrf }}">
+          <input type="hidden" name="city" value="{{ c['city'] }}">
+          {% if c['released'] %}
+            <button class="ghost" name="action" value="unrelease">Hide</button>
+          {% else %}
+            <button name="action" value="release">Release to team</button>
+          {% endif %}
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <form class="inline" method="post" style="margin-top:10px">
+    <input type="hidden" name="_csrf" value="{{ csrf }}">
+    <button class="ghost" name="action" value="sync">Re-sync leads for released cities</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">Users</h2>
+  <table>
+    <tr><th>Username</th><th>Name</th><th>Role</th><th>Status</th><th></th></tr>
+    {% for u in users %}
+    <tr>
+      <td>{{ u['username'] }}</td>
+      <td>{{ u['name'] }}</td>
+      <td>{{ u['role'] }}</td>
+      <td>{{ 'active' if u['active'] else 'disabled' }}</td>
+      <td>
+        {% if u['id'] != user['id'] %}
+        <form class="inline" method="post">
+          <input type="hidden" name="_csrf" value="{{ csrf }}">
+          <input type="hidden" name="user_id" value="{{ u['id'] }}">
+          <button class="ghost" name="action" value="toggle_user">
+            {{ 'Disable' if u['active'] else 'Enable' }}</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <h2>Add user</h2>
+  <form method="post" class="filters">
+    <input type="hidden" name="_csrf" value="{{ csrf }}">
+    <input name="username" placeholder="username" required>
+    <input name="name" placeholder="Full name" required>
+    <input name="password" type="password" placeholder="Temp password" required>
+    <select name="role"><option value="member">member</option><option value="admin">admin</option></select>
+    <button name="action" value="add_user">Create</button>
+  </form>
+</div>
+{% endblock %}

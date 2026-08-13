@@ -1,4 +1,4 @@
-"""Build outputs/hospitality_leads_haryana.xlsx — the 140 CLU hospitality leads
+"""Build outputs/hospitality_leads_haryana_v2.xlsx — the 140 CLU hospitality leads
 as a working outreach file (leads sheet + summary + legend)."""
 import sqlite3
 from pathlib import Path
@@ -9,7 +9,7 @@ from openpyxl.utils import get_column_letter
 
 ROOT = Path(__file__).resolve().parent.parent
 DB = ROOT / "db" / "caspar.db"
-OUT = ROOT / "outputs" / "hospitality_leads_haryana.xlsx"
+OUT = ROOT / "outputs" / "hospitality_leads_haryana_v2.xlsx"
 
 ARIAL = Font(name="Arial", size=10)
 HDR = Font(name="Arial", size=10, bold=True, color="FFFFFF")
@@ -17,6 +17,77 @@ HDR_FILL = PatternFill("solid", fgColor="2F5D46")
 WORK_FILL = PatternFill("solid", fgColor="FFF2CC")   # columns the team fills in
 YELLOW = PatternFill("solid", fgColor="FFFF00")
 THIN = Border(*[Side(style="thin", color="C9C9C9")] * 4)
+
+
+# Contact research results (web research Aug 13, 2026). Keyed by
+# (district, applicant-substring). owner, phone_email, status, note.
+CONTACTS = {
+    ("Karnal", "Deventure Hotels"): (
+        "Rajeev Mukul — Founder & MD, Deventure Hotel and Resorts P.L. "
+        "(CIN U55101DL2010PTC205366)",
+        "saleshead@deventurehotel.com; gm.karnal@deventurehotel.com; "
+        "+91 93178 88989; 0184-3540400",
+        "Contact found",
+        "Operating chain (Karnal NH-44, Shimla Hills, Delhi x2, Sarovar Portico "
+        "Kapashera). Basdhara CLU = highway-resort expansion, unannounced. "
+        "Src: deventurehotel.com + ZaubaCorp"),
+    ("Panipat", "JAVI HOME"): (
+        "Vibhor Jain — MD, Javi Home P.L. (Panipat home-textiles exporter, "
+        "CIN U17120DL2010PTC210592; Neeti/Naman Jain co-directors)",
+        "hello@javihome.com; WhatsApp +91 98965 44053",
+        "Contact found",
+        "Textile-export family diversifying into hospitality; exports to 71+ "
+        "countries. Src: javihome.com + TheCompanyCheck"),
+    ("Panipat", "SATBIR SINGH"): (
+        "UNVERIFIED: possibly 'The Lagoon' hotel, Patti Kalyana NH-44 "
+        "(opened recently, same village)",
+        "+91 80595 55500 (The Lagoon front desk)",
+        "Lead - verify",
+        "New upscale hotel on exact village matches CLU timing; owner name "
+        "not published. Verify by phone. Src: Tripadvisor/Booking"),
+    ("Hisar", "GREEN VALLEY"): (
+        "Green Valley (regd. partnership, GSTIN 06AAWFG6114H1Z7), GT Rd "
+        "Kutabpur, Hansi — operating leisure complex",
+        "greenvalliewaterpark@gmail.com; +91 98121 57357; +91 77000 12262",
+        "Contact found",
+        "Operating: Green Vallie Water Park (2025), Haldiram's, Levi's store, "
+        "banquets on NH-9. Src: greenvalliewaterpark.com + LEI/GST"),
+    ("Rohtak", "LPSIS"): (
+        "Rahul & Sandhya Jain — LPSIS P.L. (CIN U74900DL2011PTC225360), "
+        "Universal Precision Screws group, Rohtak",
+        "rfq@lpsis.co.in; 9729870604; 7496977882",
+        "Contact found",
+        "Major Rohtak fastener manufacturer's family; NH-10 site. Co-licensee "
+        "'Sohana Auto P.L.' unresolved in MCA — verify spelling. Src: ZaubaCorp/lpsis.co.in"),
+    ("Ambala", "Ashwani"): (
+        "UNVERIFIED: probable venue = Ambala Haveli, NH-44 GT Rd, village "
+        "Mohra (restaurant+rooms+banquet, renovated 2020)",
+        "info.ambalahaveli@gmail.com; +91 90505 66555; +91 90531 46555",
+        "Lead - verify",
+        "Ownership link to applicant not published — confirm by phone. "
+        "Src: Booking/Facebook"),
+    ("Kurukshetra", "Dayal rice"): (
+        "UNVERIFIED: only rice mill in village Niwarsi = Goel Rice Mills, "
+        "Pipli Rd, Ladwa (est. 2019) — plausibly same family, different firm name",
+        "sales@goelricemills.com; +91 89502 23456",
+        "Lead - verify",
+        "Inference, not confirmation. Src: goelricemills.com"),
+    ("Panipat", "GUNJAN MEHNDIRATTA"): (
+        "", "", "New",
+        "Ganjbar = NH-44 frontage 9 km S of Panipat — 3 hotel CLUs 2025-26 "
+        "forming a new highway strip; all pre-construction. ID via DTCP file."),
+    ("Karnal", "RAJESH, RAJEEV, AMIT GOYAL"): (
+        "", "", "New",
+        "Shamgarh GT-Road belt (comparables: The Vivaan, Comfort Inn Taraori). "
+        "No footprint — gatekeeper/DTCP-file ID."),
+}
+
+
+def find_contact(district: str, applicant: str):
+    for (d, key), v in CONTACTS.items():
+        if d == district and key.lower() in (applicant or "").lower():
+            return v
+    return None
 
 
 def category(activity: str) -> str:
@@ -89,13 +160,22 @@ def main() -> None:
             link.hyperlink = gis
             link.font = Font(name="Arial", size=10, color="2F5D46", underline="single")
         link.border = THIN
-        ws.cell(r, 14, "New").font = ARIAL
+        hit = find_contact(dist, applicant or "")
+        if hit:
+            owner, phone_email, status, note = hit
+            ws.cell(r, 14, status)
+            ws.cell(r, 15, owner)
+            ws.cell(r, 16, phone_email)
+            ws.cell(r, 18, note)
+        else:
+            ws.cell(r, 14, "New")
         for c in range(14, 19):
             ws.cell(r, c).fill = WORK_FILL
             ws.cell(r, c).border = THIN
             if ws.cell(r, c).value is None:
                 ws.cell(r, c).value = ""
             ws.cell(r, c).font = ARIAL
+            ws.cell(r, c).alignment = Alignment(wrap_text=True, vertical="top")
 
     widths = [12, 15, 30, 18, 26, 11, 11, 10, 12, 7, 9, 9, 10, 10, 22, 22, 22, 30]
     for c, w in enumerate(widths, 1):

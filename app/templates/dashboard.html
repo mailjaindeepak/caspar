@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Cities</h1>
+<div class="grid">
+  {% for c, s in cities %}
+  <div class="card">
+    <h2 style="margin-top:0">
+      <a href="{{ url_for('city_page', city=c['city']) }}">{{ c['city']|title }}</a>
+      {% if not c['released'] %}<span class="badge">hidden</span>{% endif %}
+    </h2>
+    <div>{{ s['total'] or 0 }} leads
+      {% if s['fresh'] %}· <span class="badge status-new">{{ s['fresh'] }} new</span>{% endif %}
+      {% if s['wins'] %}· {{ s['wins'] }} in meetings+{% endif %}
+    </div>
+    {% if s['last_batch'] %}<div class="muted small">last updated {{ s['last_batch'] }}</div>{% endif %}
+  </div>
+  {% else %}
+  <div class="card">No cities are live yet — check back soon.</div>
+  {% endfor %}
+</div>
+
+<h2>My open leads</h2>
+{% if mine %}
+<table>
+  <tr><th>Lead</th><th>City</th><th>Status</th><th>Updated</th></tr>
+  {% for l in mine %}
+  <tr class="lead-row" onclick="location='{{ url_for('lead_page', lead_id=l['id']) }}'">
+    <td><a href="{{ url_for('lead_page', lead_id=l['id']) }}">{{ l['title'] }}</a>
+        <div class="muted small">{{ l['subtitle'] }}</div></td>
+    <td>{{ l['city']|title }}</td>
+    <td><span class="badge status-{{ l['status'] }}">{{ STATUS_LABELS[l['status']] }}</span></td>
+    <td class="small muted">{{ l['updated_at'] }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}<div class="muted">Nothing assigned to you yet.</div>{% endif %}
+{% endblock %}
