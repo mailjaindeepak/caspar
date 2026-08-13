@@ -17,7 +17,7 @@ for the data design.
 ## Lead app
 
 ```
-python -m pip install flask
+python -m pip install flask requests pyproj
 python app/server.py            # serves on http://<this-machine>:8765 (LAN)
 ```
 

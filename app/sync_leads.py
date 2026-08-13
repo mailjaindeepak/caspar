@@ -79,6 +79,17 @@ def find_contacts(book, *names):
     return "", ""
 
 
+def with_map_link(r):
+    """Ensure the row dict has a map_link built from whatever coords it carries."""
+    if not r.get("map_link"):
+        for lat_k, lng_k in (("lat", "lng"), ("centroid_lat", "centroid_lng")):
+            lat, lng = r.get(lat_k), r.get(lng_k)
+            if lat and lng:
+                r["map_link"] = f"https://maps.google.com/?q={float(lat):.6f},{float(lng):.6f}"
+                break
+    return r
+
+
 def lead_rows_for_city(city):
     d = OUTPUTS / city
     book = load_contacts(d)
@@ -96,7 +107,7 @@ def lead_rows_for_city(city):
                      f"Sector {r.get('sector') or '—'} · licence {r['licence_no']} "
                      f"({r.get('issue_date','')})",
             priority=float(r["need_score"]) if r.get("need_score") else None,
-            emails=emails, phones=phones, details=r))
+            emails=emails, phones=phones, details=with_map_link(r)))
 
     for r in read_csv(d / "ripe_parcels.csv"):
         dev = r.get("developer_group") or r.get("developer_raw") or "Unknown developer"
@@ -107,7 +118,7 @@ def lead_rows_for_city(city):
                      f"Sector {r.get('sector') or '—'} · licence {r['licence_no']} "
                      f"({r.get('issue_date','')})",
             priority=float(r["score"]) / 10 if r.get("score") else None,
-            emails=emails, phones=phones, details=r))
+            emails=emails, phones=phones, details=with_map_link(r)))
 
     for r in read_csv(d / "hospitality_leads.csv"):
         rows.append(dict(

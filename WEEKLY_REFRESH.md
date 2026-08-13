@@ -40,7 +40,11 @@ python db/export_contacts.py
 
 ```
 python app/sync_leads.py
+python app/enrich_map_links.py
 ```
+
+The second command fills in Google-Maps links for new leads (parcel centroids
+from caspar.db; hospitality CLU polygons live from the DTCP GIS API).
 
 This appends only leads not seen before (keyed by licence/CLU no.), tagged with
 today's date, for **released cities only**. Team statuses/notes are never

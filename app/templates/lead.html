@@ -6,7 +6,11 @@
   <span class="badge kind">{{ KIND_LABELS[lead['kind']] }}</span>
   <span class="badge status-{{ lead['status'] }}">{{ STATUS_LABELS[lead['status']] }}</span>
 </h1>
-<p class="muted">{{ lead['subtitle'] }}</p>
+<p class="muted">{{ lead['subtitle'] }}
+  {% if details.get('map_link') %}
+    · <a href="{{ details['map_link'] }}" target="_blank" rel="noopener">📍 View parcel on map</a>
+  {% endif %}
+</p>
 
 <div class="card">
   <h2 style="margin-top:0">Work this lead</h2>
