@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Office lock files
+~$*
+
+# Local Claude settings
+.claude/settings.local.json
+
+# Team lead-management state lives only on the app host, never in git
+db/leads.db
+
+# Local env / secrets
+.env

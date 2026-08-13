@@ -1,0 +1,34 @@
+﻿city,licence_no,issue_date,purpose,area_acre,sector,dev_plan,developer_raw,developer_group,tier,score,locality_tier,valid_upto_raw,lat,lng,map_link
+karnal,60 OF 2024,10/06/2024,RPL,24.86875,29,KARNAL,HARYANA PROMOTERS PVT. LTD.,Haryana Promoters Private Limited,C,,prime,09/06/2029,29.727301,77.001103,"https://maps.google.com/?q=29.727301,77.001103"
+panipat,148 OF 2024,13/11/2024,DDJAY-APHP,21.927,40,PANIPAT,JAI KRISHAN BABA PROJECTS JV,Jai Krishan Baba Projects JV,C+,,prime,12/11/2029,29.456254,76.977188,"https://maps.google.com/?q=29.456254,76.977188"
+rohtak,102 OF 2026,26/06/2026,DDJAY-APHP,20.8239,21E,ROHTAK,Consonance Infra LLP,Consonance Infra LLP,C+,,,25/05/2031,,,
+hisar,161 OF 2026,10/08/2026,DDJAY-APHP,20.6375,2,HANSI,Vasudha Associates,Vasudha Associates,C+,,,09/08/2031,,,
+sonipat,150 OF 2023,20/07/2023,DDJAY-APHP,20.56875,33,SONIPAT,Jai Krishna Artec JV,Jai Krishna Artec JV (Krishna Apra lineage),B,,,19/07/2028,28.958907,77.063177,"https://maps.google.com/?q=28.958907,77.063177"
+sonipat,124 OF 2026,02/07/2026,DDJAY-APHP,17.85625,NA,SONIPAT,Rishika Edifice LLP,"Rishika Group (Sanjiv Sarin, Ganaur)",B-,,,01/07/2031,29.143869,77.026304,"https://maps.google.com/?q=29.143869,77.026304"
+panipat,25 OF 2022,21/03/2022,DDJAY-APHP,16.98958,40,PANIPAT,JAI KRISHAN BABA PROJECTS JV,Jai Krishan Baba Projects JV,C+,,prime,20/03/2027,29.457664,76.980624,"https://maps.google.com/?q=29.457664,76.980624"
+karnal,75 OF 2026,24/04/2026,DDJAY-APHP,16.7585,NA,KARNAL,RNR Townships Pvt Ltd,,,,,23/04/2031,29.725397,77.003756,"https://maps.google.com/?q=29.725397,77.003756"
+rohtak,143 OF 2026,14/07/2026,DDJAY-APHP,15.565,27C,ROHTAK,Galaxy Magnum Projects Pvt. Ltd.,Galaxy Magnum Group,B-,,,13/07/2031,28.841124,76.669835,"https://maps.google.com/?q=28.841124,76.669835"
+sonipat,153 OF 2026,28/07/2026,DDJAY-APHP,15.0875,NA,SONIPAT,Birdview Housing Projects LLP,Birdview Housing Projects Llp,C,,,27/07/2031,,,
+rohtak,134 OF 2026,07/07/2026,DDJAY-APHP,12.5753,NA,ROHTAK,Shyamprem Estate Private Limited,Shyamprem Estate Private Limited,C,,,06/07/2031,28.76444,76.784497,"https://maps.google.com/?q=28.76444,76.784497"
+sonipat,170 OF 2024,28/11/2024,DDJAY-APHP,12.075,41,SONIPAT,TRILOKPATI INFRAESTATE PVT LTD,Trilokpati Infraestate Pvt Ltd,C,,,27/11/2029,28.914573,77.069222,"https://maps.google.com/?q=28.914573,77.069222"
+sonipat,110 OF 2026,08/06/2026,DDJAY-APHP,11.5563,11,SONIPAT,Nugraj Dream Builders Pvt. Ltd.,Nugraj Dream Builders Private Limited,C,,,07/06/2031,28.867274,76.894763,"https://maps.google.com/?q=28.867274,76.894763"
+sonipat,125 OF 2026,02/07/2026,DDJAY-APHP,11.26875,10,KHARKHAUDA,Om Shiva Real Estate Pvt. Ltd.,Om Shiva Real Estate Pvt. Ltd.,C,,,01/07/2031,28.862561,76.907007,"https://maps.google.com/?q=28.862561,76.907007"
+sonipat,10 OF 2026,15/01/2026,DDJAY-APHP,10.50625,NA,KHARKHAUDA,Nextra Dream Town Realty Pvt. Ltd.,Nextra Dream Town Realty Pvt. Ltd.,C,,,14/01/2031,28.874323,76.930279,"https://maps.google.com/?q=28.874323,76.930279"
+hisar,38 OF 2026,02/03/2026,DDJAY-APHP,9.4625,11,HISSAR,Jindal Prop Infra LLP,Jindal Prop Infra LLP (SR Jindal Group),B,,,01/03/2031,29.119298,75.766344,"https://maps.google.com/?q=29.119298,75.766344"
+karnal,33 OF 2026,19/02/2026,DDJAY-APHP,9.30625,5,ASSANDH,Landmark Estate,,,,,18/02/2031,29.51145,76.595885,"https://maps.google.com/?q=29.51145,76.595885"
+karnal,96 OF 2026,18/05/2026,DDJAY-APHP,8.7402,10,ASSANDH,M/s Richminds Developers Pvt. Ltd.,,,,,17/05/2031,29.530864,76.621529,"https://maps.google.com/?q=29.530864,76.621529"
+sonipat,73 OF 2026,23/04/2026,DDJAY-APHP,8.3375,80,SONIPAT,Skybyte Buildtech Pvt. Ltd.,Skybyte Buildtech Pvt. Ltd.,C,,,22/04/2031,28.965597,77.092957,"https://maps.google.com/?q=28.965597,77.092957"
+karnal,08 OF 2026,12/01/2026,DDJAY-APHP,8.25,35,KARNAL,RAJDARBAR BUILDERS PRIVATE LIMITED,Rajdarbar Builders,B,50.0,secondary,11/01/2031,,,
+sonipat,107 OF 2026,02/06/2026,DDJAY-APHP,8.10625,33,SONIPAT,Kreshya Realtech LLP,Kreshya Realtech Llp,C,,,01/06/2031,28.957078,77.06096,"https://maps.google.com/?q=28.957078,77.06096"
+sonipat,179 OF 2025,18/09/2025,DDJAY-APHP,6.8,26A,SONIPAT,Ms Ujala Buildwell LLP,Ms Ujala Buildwell Llp,C,,,17/09/2030,28.964379,77.046962,"https://maps.google.com/?q=28.964379,77.046962"
+sonipat,9 OF 2025,16/01/2025,DDJAY-APHP,6.65625,64,SONIPAT,PTRT Builders Pvt. Ltd.,Ptrt Builders Private Limited,C,,,15/01/2030,28.911074,77.131572,"https://maps.google.com/?q=28.911074,77.131572"
+karnal,31 OF 2026,18/02/2026,DDJAY-APHP,6.225,27,KARNAL,Arman Residency,Arman Residency,C,,,16/02/2031,,,
+karnal,41 OF 2022,07/04/2022,DDJAY-APHP,6.21875,36,KARNAL,RAJDARBAR BUILDERS PRIVATE LIMITED,Rajdarbar Builders,B,50.0,secondary,06/04/2027,,,
+karnal,144 OF 2026,14/07/2026,DDJAY-APHP,6.21875,34,KARNAL,SATWIK INFRASTRUCTURE,,,,,13/07/2031,29.667639,77.023557,"https://maps.google.com/?q=29.667639,77.023557"
+hisar,32 OF 2026,17/02/2026,DDJAY-APHP,6.15625,39,HISSAR,Deepti Gupta Trading LLP,"Deepti Gupta Trading LLP (Gupta family, Rishi Nagar)",C+,,,16/02/2031,29.19593,75.672507,"https://maps.google.com/?q=29.19593,75.672507"
+ambala,67 OF 2026,20/04/2026,DDJAY-APHP,5.98125,28,AMBALA,Ambala Home Land Developers Pvt. Ltd.,Ambala Home Land Developers,C,,,19/04/2031,30.318645,76.818046,"https://maps.google.com/?q=30.318645,76.818046"
+sonipat,128 OF 2026,06/07/2026,DDJAY-APHP,5.98125,04,KHARKHAUDA,Ramville Buildcon LLP,Ramville Buildcon Llp,C,,,05/07/2031,28.858051,76.929757,"https://maps.google.com/?q=28.858051,76.929757"
+rohtak,116 OF 2026,11/06/2026,DDJAY-APHP,5.9597,25D,ROHTAK,AARADHYA INFRASPACES LLP,Aaradhya Infraspaces Llp,C,,,10/06/2031,28.841672,76.63453,"https://maps.google.com/?q=28.841672,76.63453"
+sonipat,189 OF 2024,19/12/2024,DDJAY-APHP,5.26875,26A,SONIPAT,U V Landbase Pvt. Ltd.,U V Landbase Pvt. Ltd.,C,,,18/12/2029,28.955369,77.044716,"https://maps.google.com/?q=28.955369,77.044716"
+sonipat,131 OF 2026,07/07/2026,AHP,5.2625,NA,SONIPAT,Chirag Buildtec Private Limited,Chirag Buildtec Private Limited,C,,,06/07/2031,29.03153,77.034339,"https://maps.google.com/?q=29.03153,77.034339"
+karnal,188 OF 2025,30/09/2025,DDJAY-APHP,5.03125,33,KARNAL,ESMAX INFRADEVELOPERS PRIVATE LIMITED,Esmax Infradevelopers Pvt Ltd,C,,prime,29/09/2030,29.682189,77.026758,"https://maps.google.com/?q=29.682189,77.026758"
