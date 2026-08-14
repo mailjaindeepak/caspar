@@ -95,3 +95,16 @@ button.ghost { background: var(--card); color: var(--muted); border: 1px solid v
 .login-box button { width: 100%; }
 .scroll-x { border-radius: 10px; }
 #map { border-color: var(--line) !important; }
+
+/* Phones/tablets: wide tables scroll inside their container (page stays put);
+   desktop keeps the no-horizontal-scroll layout. */
+@media (max-width: 900px) {
+  main { padding: 0 10px; }
+  .scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .scroll-x table { min-width: 880px; }
+  table { font-size: 12px; }
+  th, td { padding: 6px 7px; }
+  .tabs a { padding: 5px 10px; font-size: 12.5px; }
+  header { padding: 8px 12px; }
+  .brand { font-size: 14px; }
+}
