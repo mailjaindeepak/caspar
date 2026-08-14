@@ -16,9 +16,12 @@ import sys
 from datetime import date
 from pathlib import Path
 
+import os
+
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUTS = ROOT / "outputs"
-LEADS_DB = ROOT / "db" / "leads.db"
+# CASPAR_LEADS_DB lets cloud deployments point at a persistent volume
+LEADS_DB = Path(os.environ.get("CASPAR_LEADS_DB", ROOT / "db" / "leads.db"))
 SCHEMA = ROOT / "app" / "leads_schema.sql"
 
 # call_list.csv is currently exported without a city filter (same file in every

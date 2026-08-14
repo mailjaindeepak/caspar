@@ -18,8 +18,19 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 import sync_leads
 
+import os
+
 ROOT = Path(__file__).resolve().parent.parent
-LEADS_DB = ROOT / "db" / "leads.db"
+LEADS_DB = Path(os.environ.get("CASPAR_LEADS_DB", ROOT / "db" / "leads.db"))
+
+# Cloud bootstrap: if the persistent-volume DB doesn't exist yet, seed it from
+# the copy shipped in the repo (deploy/leads_seed.db) so first boot has the
+# released cities, users, and leads.
+_SEED = ROOT / "deploy" / "leads_seed.db"
+if not LEADS_DB.exists() and _SEED.exists():
+    LEADS_DB.parent.mkdir(parents=True, exist_ok=True)
+    import shutil
+    shutil.copy(_SEED, LEADS_DB)
 
 STATUSES = ["new", "contacted", "replied", "meeting_set", "handed_off",
             "deal", "on_hold", "dropped"]
@@ -35,6 +46,37 @@ KIND_LABELS = {
 }
 
 app = Flask(__name__)
+app.config.update(
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE="Lax",
+    # Secure cookies when served over the HTTPS tunnel; harmless on plain LAN
+    # only if members use the tunnel URL — LAN http access will still work
+    # because Flask only *marks* the cookie; browsers enforce per-scheme.
+    SESSION_COOKIE_SECURE=False,
+    MAX_CONTENT_LENGTH=1024 * 1024,
+)
+
+# Honour X-Forwarded-* headers set by the tunnel so url_for/redirects use https
+from werkzeug.middleware.proxy_fix import ProxyFix  # noqa: E402
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+
+# ---- simple brute-force throttle on login (per username+ip) ----
+_ATTEMPTS: dict = {}
+LOCKOUT_AFTER = 6          # failed tries
+LOCKOUT_WINDOW = 900       # within 15 minutes -> lock for the window
+
+
+def _throttled(key: str) -> bool:
+    import time
+    now = time.time()
+    tries = [t for t in _ATTEMPTS.get(key, []) if now - t < LOCKOUT_WINDOW]
+    _ATTEMPTS[key] = tries
+    return len(tries) >= LOCKOUT_AFTER
+
+
+def _record_failure(key: str) -> None:
+    import time
+    _ATTEMPTS.setdefault(key, []).append(time.time())
 
 
 def _secret_key():
@@ -125,12 +167,22 @@ def city_or_403(user, city):
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
+        uname = request.form.get("username", "").strip().lower()
+        ip = request.headers.get("X-Forwarded-For", request.remote_addr or "?")
+        key = f"{uname}|{ip.split(',')[0].strip()}"
+        if _throttled(key):
+            flash("Too many attempts — try again in 15 minutes.")
+            return render_template("login.html"), 429
         row = db().execute("SELECT * FROM users WHERE username=? AND active=1",
-                           (request.form.get("username", "").strip().lower(),)).fetchone()
+                           (uname,)).fetchone()
         if row and check_password_hash(row["pw_hash"], request.form.get("password", "")):
             session.clear()
             session["user_id"] = row["id"]
-            return redirect(request.args.get("next") or url_for("dashboard"))
+            nxt = request.args.get("next") or ""
+            # only allow same-site relative redirects
+            return redirect(nxt if nxt.startswith("/") and not nxt.startswith("//")
+                            else url_for("dashboard"))
+        _record_failure(key)
         flash("Wrong username or password.")
     return render_template("login.html")
 
@@ -307,4 +359,10 @@ def admin():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8765, debug=False)
+    port = int(os.environ.get("PORT", 8765))
+    try:
+        from waitress import serve
+        print(f"Serving on 0.0.0.0:{port} (waitress)")
+        serve(app, host="0.0.0.0", port=port, threads=8)
+    except ImportError:
+        app.run(host="0.0.0.0", port=port, debug=False)
