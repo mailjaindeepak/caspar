@@ -10,10 +10,18 @@ Run from repo root. Steps in order; each is safe to re-run.
 
 ```
 python scrapers/dtcp_licences.py        # licence register (the highest-value diff)
+python scrapers/dtcp_pending.py --fetch # PENDING applications (earliest signal)
 python scrapers/dtcp_clu.py             # CLU permissions (hospitality channel)
 python scrapers/harera_projects.py      # RERA registrations
 python scrapers/harera_agents.py        # agent registry (monthly is fine)
 ```
+
+Pending-register notes: the endpoint (WebAdmin/License/LicensePending) is
+deliberately unlinked from DTCP's public menus — if the fetch fails or the row
+count collapses, it may have been taken down; flag it in the report. GET only
+(HEAD redirects to login). A file_no that LEAVES pending and APPEARS in the
+granted register that week = licence granted = the hottest possible signal;
+call it out in the report.
 
 Notes from past runs:
 - jamabandi/HARIS endpoints are flaky (503s); district-portal PDFs are primary.
@@ -41,6 +49,7 @@ python db/export_contacts.py
 ```
 python app/sync_leads.py
 python app/enrich_map_links.py
+python app/enrich_developer_stats.py
 ```
 
 The second command fills in Google-Maps links for new leads (parcel centroids

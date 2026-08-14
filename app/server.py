@@ -7,6 +7,7 @@ management, city release, and lead sync.
 """
 import functools
 import json
+import re
 import secrets
 import sqlite3
 from datetime import date, datetime
@@ -41,8 +42,46 @@ STATUS_LABELS = {
 }
 KIND_LABELS = {
     "parcel": "Land parcel",
+    "application": "Licence application",
     "hospitality": "Hospitality",
     "developer": "Developer",
+}
+SITE_STATUSES = ["unchecked", "vacant", "under_construction", "operating"]
+SITE_LABELS = {
+    "unchecked": "Unchecked", "vacant": "Vacant land",
+    "under_construction": "Under construction", "operating": "Operating",
+}
+
+# Ordered keyword -> hospitality lead type; first match wins, so compound
+# activities ("Motel cum Restaurant") classify by their primary use.
+HOSP_TYPES = [
+    ("hotel", "Hotel"), ("motel", "Motel"), ("resort", "Resort"),
+    ("guest", "Guest house"), ("boarding", "Guest house"),
+    ("marriage", "Marriage palace"), ("wedding", "Marriage palace"),
+    ("amusement", "Amusement park"), ("banquet", "Banquet hall"),
+    ("restaurant", "Restaurant"), ("dhaba", "Dhaba"),
+    ("farm", "Farm house"), ("club", "Club"),
+]
+
+
+def hosp_type(activity):
+    a = (activity or "").lower()
+    for key, label in HOSP_TYPES:
+        if key in a:
+            return label
+    return "Other"
+
+
+# DTCP licence purpose codes, humanized for the team
+PURPOSE_LABELS = {
+    "RPL": "Residential plotted colony",
+    "RGH": "Residential group housing",
+    "DDJAY-APHP": "Affordable plotted (DDJAY)",
+    "AHP": "Affordable group housing",
+    "NILP": "Integrated township (NILP)",
+    "CPL": "Commercial plotted",
+    "CIR-CIC": "Commercial (CIR/CIC)",
+    "IPA": "Industrial park",
 }
 
 app = Flask(__name__)
@@ -143,7 +182,8 @@ def inject_globals():
         session["_csrf"] = secrets.token_hex(16)
     return dict(csrf=session["_csrf"], user=getattr(g, "user", None),
                 STATUSES=STATUSES, STATUS_LABELS=STATUS_LABELS,
-                KIND_LABELS=KIND_LABELS)
+                KIND_LABELS=KIND_LABELS, SITE_STATUSES=SITE_STATUSES,
+                SITE_LABELS=SITE_LABELS)
 
 
 def visible_cities(user):
@@ -224,6 +264,8 @@ def city_page(city):
     kind = request.args.get("kind") or None
     status = request.args.get("status") or None
     assignee = request.args.get("assignee") or None
+    min_acre = request.args.get("min_acre", type=float)
+    site = request.args.get("site") or None
     sql = """SELECT l.*, u.name AS assignee_name FROM leads l
              LEFT JOIN users u ON u.id=l.assigned_to WHERE l.city=?"""
     params = [city]
@@ -235,14 +277,46 @@ def city_page(city):
         sql += " AND l.assigned_to=?"; params.append(g.user["id"])
     elif assignee == "none":
         sql += " AND l.assigned_to IS NULL"
+    if site in SITE_STATUSES and kind == "hospitality":
+        sql += " AND l.site_status=?"; params.append(site)
     sql += """ ORDER BY CASE WHEN l.status='new' THEN 0 ELSE 1 END,
                l.priority IS NULL, l.priority DESC, l.updated_at DESC"""
-    leads = db().execute(sql, params).fetchall()
+    leads = [dict(l) for l in db().execute(sql, params).fetchall()]
+    for l in leads:
+        l["d"] = json.loads(l["details_json"])
+        try:
+            l["area_fmt"] = f"{float(l['d'].get('area_acre')):.2f}"
+        except (TypeError, ValueError):
+            l["area_fmt"] = "?"
+    if min_acre and kind in ("parcel", "hospitality", "application"):
+        def _area(l):
+            try:
+                return float(l["d"].get("area_acre") or 0)
+            except ValueError:
+                return 0.0
+        leads = [l for l in leads if _area(l) >= min_acre]
+    if kind == "parcel":
+        # surface the as-printed licence-holder name when it isn't just a
+        # spelling variant of the resolved group (SPV / landowner licences)
+        for l in leads:
+            raw = l["d"].get("developer_raw") or ""
+            l["holder_differs"] = bool(
+                raw and sync_leads.norm_name(raw) != sync_leads.norm_name(l["title"]))
+    if kind == "hospitality":
+        for l in leads:
+            l["hosp_type"] = hosp_type(l["d"].get("activity"))
+        # unworked leads first, then biggest plots first
+        leads.sort(key=lambda l: (l["status"] != "new",
+                                  -(float(l["d"].get("area_acre") or 0))))
     latest_batch = db().execute("SELECT max(batch_tag) FROM leads WHERE city=?",
                                 (city,)).fetchone()[0]
+    kind_counts = dict(db().execute(
+        "SELECT kind, count(*) FROM leads WHERE city=? GROUP BY kind",
+        (city,)).fetchall())
     return render_template("city.html", c=c, leads=leads, kind=kind,
-                           status=status, assignee=assignee,
-                           latest_batch=latest_batch)
+                           status=status, assignee=assignee, min_acre=min_acre,
+                           site=site, latest_batch=latest_batch,
+                           kind_counts=kind_counts, PURPOSE_LABELS=PURPOSE_LABELS)
 
 
 @app.route("/lead/<int:lead_id>", methods=["GET", "POST"])
@@ -267,6 +341,11 @@ def lead_page(lead_id):
         if assign is not None:
             assigned = int(assign) if assign else None
             sets.append("assigned_to=?"); params.append(assigned)
+        site = request.form.get("site_status")
+        if (lead["kind"] == "hospitality" and site in SITE_STATUSES
+                and site != lead["site_status"]):
+            sets.append("site_status=?"); params.append(site)
+            note = (note + "\n" if note else "") + f"Site check: {SITE_LABELS[site]}"
         if sets:
             sets.append("updated_at=?")
             params.append(datetime.now().isoformat(timespec="seconds"))
@@ -290,6 +369,30 @@ def lead_page(lead_id):
     details = json.loads(lead["details_json"])
     return render_template("lead.html", lead=lead, notes=notes,
                            members=members, details=details)
+
+
+@app.route("/lead/<int:lead_id>/map")
+@login_required()
+def lead_map(lead_id):
+    lead = db().execute("SELECT * FROM leads WHERE id=?", (lead_id,)).fetchone()
+    if lead is None:
+        abort(404)
+    city_or_403(g.user, lead["city"])
+    d = json.loads(lead["details_json"])
+    polys = d.get("polygon_latlng") or []
+    center = None
+    if polys:
+        pts = [p for ring in polys for p in ring]
+        center = [sum(p[0] for p in pts) / len(pts),
+                  sum(p[1] for p in pts) / len(pts)]
+    elif d.get("map_link"):
+        m = re.search(r"q=(-?[\d.]+),(-?[\d.]+)", d["map_link"])
+        if m:
+            center = [float(m.group(1)), float(m.group(2))]
+    if center is None:
+        abort(404)
+    return render_template("map.html", lead=lead, polys=polys, center=center,
+                           gmaps_link=d.get("map_link"))
 
 
 @app.route("/city/<city>/directory/<which>")

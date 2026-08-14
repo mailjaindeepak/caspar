@@ -1,0 +1,716 @@
+[
+ {
+  "lead_id": 10,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Rajesh Goyal",
+    "role": "applicant (CLU)"
+   },
+   {
+    "name": "Rajeev Goyal",
+    "role": "applicant (CLU)"
+   },
+   {
+    "name": "Amit Goyal",
+    "role": "applicant (CLU)"
+   }
+  ],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "CLU dated 02/03/2026 is very recent; no operating hotel/banquet, business listing, or company traced in Shamgarh village (Nilokheri tehsil, NH-44) despite multiple search variants."
+ },
+ {
+  "lead_id": 11,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Smt. Sudesh Rawal",
+    "role": "applicant (CLU)"
+   }
+  ],
+  "company_cin": null,
+  "sources": [
+   "https://in.top10place.com/mayur-dhaba-karnal-1357340283.html"
+  ],
+  "confidence": "low",
+  "notes": "No listing traceable to Sudesh Rawal; village is likely Barana on NH-44 between Samana and Nilokheri where existing dhabas (Mayur Dhaba, Chayren Fouji Dhaba) operate, but none show any Rawal ownership link; Feb-2026 CLU suggests venue not yet built."
+ },
+ {
+  "lead_id": 12,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Arpit Goyal",
+    "role": "applicant (CLU)"
+   },
+   {
+    "name": "Sanchit Goyal",
+    "role": "applicant (CLU)"
+   }
+  ],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "CLU dated 13/04/2026 is brand new; no motel/banquet listing or company under Arpit/Sanchit Goyal found for Samana Bahu; existing Samana Bahu venues (Riyasat Resort, dhabas) show no Goyal connection."
+ },
+ {
+  "lead_id": 13,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Om Parkash",
+    "role": "applicant (CLU)"
+   }
+  ],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No hotel or business listing found in/near Kond village; common name Om Parkash could not be corroborated against any venue, so nothing attributed; Mar-2026 CLU likely pre-operational."
+ },
+ {
+  "lead_id": 16,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Narain Dass Rahea (Raheja)",
+    "role": "applicant (CLU)"
+   }
+  ],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No motel/dhaba listing traceable to Narain Dass Raheja in Nawal village (0.30-acre motel, May-2025 CLU); searches for Raheja-named venues in Karnal returned nothing credible."
+ },
+ {
+  "lead_id": 17,
+  "found": true,
+  "venue_name": "Deventure Hotel Karnal (Deventure Hotels group)",
+  "phones": [
+   "0184-3540400",
+   "+91-9896115500"
+  ],
+  "emails": [
+   "gm.karnal@deventurehotel.com",
+   "hr@deventurehotel.com"
+  ],
+  "people": [
+   {
+    "name": "Rajeev Mukul",
+    "role": "Director, Deventure Hotels Pvt Ltd"
+   },
+   {
+    "name": "Dinesh Kakar",
+    "role": "Director, Deventure Hotels Pvt Ltd"
+   },
+   {
+    "name": "Narender Singh",
+    "role": "Additional Director (appointed 01/04/2024), Deventure Hotels Pvt Ltd"
+   }
+  ],
+  "company_cin": "U55101DL2008PTC180356",
+  "sources": [
+   "https://www.deventurehotel.com/karnal/",
+   "https://www.zaubacorp.com/DEVENTURE-HOTELS-PRIVATE-LIMITED-U55101DL2008PTC180356",
+   "https://www.thecompanycheck.com/company/deventure-hotels-private-limited/U55101DL2008PTC180356"
+  ],
+  "confidence": "high",
+  "notes": "Confirmed as the Deventure hotel group (regd. office Netaji Subhash Place, Delhi; existing Deventure Hotel Karnal at NH-1 Namaste Chowk — phones/gm email from its own site, hr email from ZaubaCorp); Basdhara 4.93-acre CLU is presumably a new expansion; related group entities: Deventure Hotel And Resorts Pvt Ltd (U55101DL2010PTC205366) and Deventure Hospitality Pvt Ltd (U55204DL2016PTC300116)."
+ },
+ {
+  "lead_id": 20,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Rupinder Pal Singh",
+    "role": "applicant (CLU)"
+   }
+  ],
+  "company_cin": null,
+  "sources": [
+   "https://www.joonsquare.com/banquet-hall/rk-riyasat-resort-kurukshetra",
+   "https://magicpin.in/Karnal/Samana-Bahu/Restaurant/Hotel-24-Seven/store/374145/",
+   "https://www.tripadvisor.com/Hotel_Review-g27102186-d14033314-Reviews-Riyasat_Resort-Samana_Bahu_Karnal_District_Haryana.html"
+  ],
+  "confidence": "low",
+  "notes": "No venue attributable to Rupinder Pal Singh; Samana Bahu hospitality venues found — RK Riyasat Resort (ph +91-9996789101, info@riyasatresorts.com per Joonsquare; predates the Dec-2023 CLU and initials don't match) and Hotel 24 Seven (ph +918888040066, WhatsApp +919217002598 per magicpin; no owner named) — ownership unverified so not attributed."
+ },
+ {
+  "lead_id": 26,
+  "found": true,
+  "venue_name": "Taksh Hotel & Restaurant, Safidon Road, Assandh (possible match, unverified ownership)",
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Mahender Kumar",
+    "role": "applicant (CLU)"
+   },
+   {
+    "name": "Anil Kumar",
+    "role": "applicant (CLU)"
+   },
+   {
+    "name": "Santosh Rani",
+    "role": "applicant (CLU)"
+   }
+  ],
+  "company_cin": null,
+  "sources": [
+   "https://www.justdial.com/Karnal/Taksh-Hotel-Resturant-Opp-Radhaswami-Satsang-Beas-Assandh/9999PX184-X184-250213095042-B6P7_BZDET",
+   "https://www.zomato.com/karnal/taksh-hotel-and-restaurant-asandh"
+  ],
+  "confidence": "low",
+  "notes": "Taksh Hotel & Restaurant (opp. Radhaswami Satsang Beas, Safidon Road, Assandh 132039; on Justdial and Zomato) is the only hotel-cum-restaurant listed in Assandh and plausibly sits on this 2018 CLU parcel, but no source names its owners so the link to Mahender/Anil Kumar/Santosh Rani is unconfirmed; phone not published in accessible sources (Justdial/Zomato listings hold it behind their apps)."
+ },
+ {
+  "lead_id": 14,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No banquet/venue listing traceable to Shamgarh village or Deshraj found; permission is recent (May 2025), venue may not be listed yet."
+ },
+ {
+  "lead_id": 15,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No listing found for a banquet hall in Salaru village or under Sukhvinder Kaur."
+ },
+ {
+  "lead_id": 18,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "https://www.justdial.com/Karnal/Banquet-Halls-in-Kutail/nct-10035861"
+  ],
+  "confidence": "low",
+  "notes": "Justdial has a 'Banquet Halls in Kutail' locality page (village likely = Kurtail) but page is bot-blocked; no venue attributable to Manu Chawla identified."
+ },
+ {
+  "lead_id": 19,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No farm-house listing found for Pipliwali village or Jagatbir Singh Salauja/Saluja."
+ },
+ {
+  "lead_id": 21,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No banquet/resort listing found for Basdhara village; no Bansal-linked banquet found near Gharaunda."
+ },
+ {
+  "lead_id": 22,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "https://www.ekarnal.com/marriage-parties/banquet-halls/"
+  ],
+  "confidence": "low",
+  "notes": "eKarnal directory shows one banquet hall located at 'Newal' (likely = Nawal) but name/phone not exposed and no Sharma attribution; unconfirmed."
+ },
+ {
+  "lead_id": 23,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No venue listing found for Ghoghripur village or Vipin Mann (Karnal Vipin Manns found online are unrelated professionals)."
+ },
+ {
+  "lead_id": 24,
+  "found": true,
+  "venue_name": "Royal Enclave",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "https://www.justdial.com/Karnal/Royal-Enclave-Assandh/9999PX184-X184-230909183235-H5Z6_BZDET"
+  ],
+  "confidence": "medium",
+  "notes": "Justdial lists 'Royal Enclave' banquet hall at Assandh, Karnal (Khanda Kheri is in Assandh tehsil; name matches applicant 'MS Royal Enclave'); phone hidden behind Justdial's show-number widget, page bot-blocked."
+ },
+ {
+  "lead_id": 25,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "Applicant name too generic; no Karnal-city banquet hall credibly attributable to Shalini Gupta w/o Sandeep Kumar found."
+ },
+ {
+  "lead_id": 27,
+  "found": true,
+  "venue_name": "ARB Water World (candidate)",
+  "phones": [
+   "+918295431351"
+  ],
+  "emails": [
+   "info@arbwaterpark.in"
+  ],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "https://www.joonsquare.com/water-park/arb-water-world-karnal",
+   "https://www.facebook.com/arbwaterpark/",
+   "https://www.justdial.com/Gharaunda/A-R-B-Water-World/9999PX184-X184-160506153902-S8R2_BZDET"
+  ],
+  "confidence": "low",
+  "notes": "ARB Water World, GT Road Gharaunda (near Liberty Shoe Factory/Century School) is the operating amusement/water park in Gharaunda proper and fits the 2017 permission timing, but no source names Annu/Ajay Bansal as owner — contacts are the park's own published ones; The Island Water Park (Kohand, Gharaunda) is the alternative candidate."
+ },
+ {
+  "lead_id": 28,
+  "found": true,
+  "venue_name": "Time Out Amusement Park (Karnal Haveli) (candidate)",
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Gurmeet Singh Sawhney",
+    "role": "Director, S R Resort Pvt Ltd (operator)"
+   },
+   {
+    "name": "Davinder Pal Singh Kohli",
+    "role": "Director, S R Resort Pvt Ltd (operator)"
+   }
+  ],
+  "company_cin": "U55201DL2004PTC125305",
+  "sources": [
+   "https://www.mappls.com/ct7dcb",
+   "https://www.zaubacorp.com/company/S-R-RESORT-PRIVATE-LIMITED/U55201DL2004PTC125305",
+   "https://www.justdial.com/Karnal/Timeout-Amusement-Park-Vill-Jhanjari-1335-Km-Stone/9999PX184-X184-120114195308-V7G5_BZDET/photos"
+  ],
+  "confidence": "low",
+  "notes": "Only operating amusement park in the Nilokheri–Taraori GT Road stretch is Time Out Amusement Park at Karnal Haveli (Vill Jhanjari, 133.5/135.5 km stone, Nilokheri), run by S R Resort Pvt Ltd (CIN above, Delhi-registered) — but its directors do not match applicant Surender Pal Singh s/o Dilip Singh, so the link to this lead is unconfirmed; no phone published in accessible sources."
+ },
+ {
+  "lead_id": 59,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "https://www.justdial.com/Karnal/Shahi-Darbar-Family-Dhaba-Garhi-Multan/9999PX184-X184-220612020241-U4R3_BZDET",
+   "https://www.justdial.com/Karnal/Home-Delivery-Restaurants-in-Garhi-Multan/nct-10250324/amp"
+  ],
+  "confidence": "low",
+  "notes": "Village is Garhi Multan (Gharaunda) on NH-44 with several dhabas (Shahi Darbar Family Dhaba, Mayur Vaishno, Suryavanshi Vaishno) but no source ties any venue or phone to Rambhul Singh; CLU is Jun-2025 so eatery may be new/unlisted."
+ },
+ {
+  "lead_id": 60,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No listing tied to Hawa Singh/Anuradha in Kond (Kohand) found; only unrelated Kohand dhabas (Tiranga Dhaba, Neelkanth Star) appear online. 0.02-acre site likely a small unlisted eatery."
+ },
+ {
+  "lead_id": 66,
+  "found": true,
+  "venue_name": "Goodrich (Goodrich group / Good N Rich Foods Pvt Ltd, Village Kutail, Gharaunda)",
+  "phones": [
+   "+91-7015993614"
+  ],
+  "emails": [
+   "info@goodrichfoods.in"
+  ],
+  "people": [
+   {
+    "name": "Ajay Kumar",
+    "role": "Director, Good N Rich Foods Pvt Ltd (Village Kutail)"
+   },
+   {
+    "name": "Amit Garg",
+    "role": "Director, Good N Rich Foods Pvt Ltd and Goodrich Foodtech Ltd"
+   },
+   {
+    "name": "Narinder Kumar",
+    "role": "Director, Goodrich Foodtech Ltd (Karnal)"
+   },
+   {
+    "name": "Kaishav Jindia",
+    "role": "Additional Director, Good N Rich Foods Pvt Ltd (appointed 14-Aug-2025)"
+   }
+  ],
+  "company_cin": "U15400HR2021PTC096282",
+  "sources": [
+   "https://goodrichfoods.in/contact-us/",
+   "https://www.thecompanycheck.com/company/good-n-rich-foods-private-limited/U15400HR2021PTC096282",
+   "https://www.zaubacorp.com/GOOD-N-RICH-FOODS-PRIVATE-LIMITED-U15400HR2021PTC096282",
+   "https://www.zaubacorp.com/company/GOODRICH-FOODTECH-LIMITED/U15100HR2010PLC041406",
+   "https://www.justdial.com/Gharaunda/Good-N-Rich-Foods-Pvt-Ltd-Near-Kutail-Kalron/9999PX184-X184-230907221718-I9K7_BZDET"
+  ],
+  "confidence": "medium",
+  "notes": "Applicant 'Narender Ajay Goodrich' matches Karnal's Goodrich group: Good N Rich Foods Pvt Ltd is registered at Village Kutail Gharaunda (directors Ajay Kumar, Amit Garg; Narinder Kumar directs sister co. Goodrich Foodtech, CIN U15100HR2010PLC041406); phone/email are the group's from goodrichfoods.in — an on-site restaurant at Kutail wasn't separately verified."
+ },
+ {
+  "lead_id": 67,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "https://hrstores.haldiram.com/haldiram-s-karnal-restaurants-bastara-karnal-462641/Contact-Us",
+   "https://restaurants.kfc.co.in/kfc-kfc-gharaunda-dt-restaurants-bastara-karnal-447163/Home"
+  ],
+  "confidence": "low",
+  "notes": "Basdhara is almost certainly Bastara (Gharaunda) on NH-44; branded outlets exist there (Haldiram's +91-7835821991, KFC, Pearl Dhaba near Bastara toll) but no source links any of them to applicants Ashish/Rakesh/Ujjaldeep/Dilpreet, so no attribution."
+ },
+ {
+  "lead_id": 69,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No Kohand/Kond eatery attributable to Anil Kumar Bhatia found on Justdial, Google, Tripadvisor, or the MoRTH NH-44 dhaba register."
+ },
+ {
+  "lead_id": 77,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [],
+  "confidence": "low",
+  "notes": "No Karnal restaurant traceable to Vijay Laxmi w/o Narinder Kumar; name too common and 2019 CLU venue not identifiable online."
+ },
+ {
+  "lead_id": 79,
+  "found": true,
+  "venue_name": "Neelkanth Star (dhaba/restaurant complex, GT Road NH-44, Karnal; unit also listed at Kohand)",
+  "phones": [
+   "+91-9992222222"
+  ],
+  "emails": [
+   "neelkanthkarnal@yahoo.com"
+  ],
+  "people": [
+   {
+    "name": "Yajvinder Lather",
+    "role": "LinkedIn profile 'Yajvinder Neelkanth – Neelkanth star karnal' — matches CLU applicant"
+   },
+   {
+    "name": "Ravinder Lather",
+    "role": "Operator/director, Neelkanth Star Pvt Ltd"
+   },
+   {
+    "name": "Ankur Lather",
+    "role": "Director, Neelkanth Star Pvt Ltd"
+   },
+   {
+    "name": "Bhupinder Lather",
+    "role": "Director, Neelkanth Star Pvt Ltd"
+   },
+   {
+    "name": "Tejinder Singh",
+    "role": "Director, Neelkanth Star Pvt Ltd"
+   }
+  ],
+  "company_cin": "U55209HR2017PTC069761",
+  "sources": [
+   "https://www.linkedin.com/in/yajvinder-neelkanth-531496159/",
+   "https://www.zaubacorp.com/NEELKANTH-STAR-PRIVATE-LIMITED-U55209HR2017PTC069761",
+   "https://www.facebook.com/NeelkanthStar/posts/neelkanth-star-dhaba-karnal-nh-1-karnal-999-2222-222/5290565794346354/",
+   "https://www.justdial.com/Karnal/Neelkanth-Star-Karnal-Kohand/9999PX184-X184-230217145336-N1H7_BZDET"
+  ],
+  "confidence": "medium",
+  "notes": "Applicant Yajvinder Lather's LinkedIn is literally 'Neelkanth star karnal'; Neelkanth Star Pvt Ltd (inc. 2017, matching the Jan-2018 CLU) is run by the Lather family on NH-44 Karnal — co-applicant 'Rajesh s/o Om Prakash' not independently confirmed."
+ },
+ {
+  "lead_id": 70,
+  "found": false,
+  "venue_name": null,
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "http://web.archive.org/web/20221230001919/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf"
+  ],
+  "confidence": "low",
+  "notes": "RAM RATTAN AGRO PRODUCTS PRIVATE LIMITED not indexed on zaubacorp/tofler/indiafilings/thecompanycheck under that exact name; MoRTH's 2020 NH-44 Karnal register lists several Barana-village dhabas (Devine Dhaba 7082316032, Punjab Dhaba/Royal Hut prop. Amit s/o Mehar Singh 9715979707, etc.) but none attributable to this 2021 CLU company."
+ },
+ {
+  "lead_id": 72,
+  "found": true,
+  "venue_name": "Rajinder Vaishno Dhaba, NH-44, Gharaunda (Karnal)",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": null,
+  "sources": [
+   "http://web.archive.org/web/20221230001919/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf"
+  ],
+  "confidence": "medium",
+  "notes": "Venue existence corroborated by MoRTH's official Karnal NH-44 dhaba register (entry 41: 'Rajinder Vaishno Dhaba, National Highway, Gharaunda' — Malikpur falls in Gharaunda tehsil), but no phone, owner name, or online listing with contact details found."
+ },
+ {
+  "lead_id": 61,
+  "found": true,
+  "venue_name": "Punjab Himachal (Truck) Dhaba",
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Vishal s/o Ram Kishan",
+    "role": "Proprietor (per official district dhaba list, NH-44 km 148.860 West, village Barana)"
+   }
+  ],
+  "company_cin": "",
+  "sources": [
+   "https://web.archive.org/web/20211227104430/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf",
+   "https://www.tribuneindia.com/news/archive/haryana/40-dhabas-on-nh-44-lack-clu-nod-815160"
+  ],
+  "confidence": "medium",
+  "notes": "Owner first name + village match (Barna=Barana, Nilokheri): official Karnal NH-44 dhaba list shows 'Punjab Himchal Truck Dhaba, Prop. Sh. Vishal S/o Sh. Ram Kishan, 148.860 (west) Barana'; Tribune notice list includes Punjab Himachal among dhabas told to get CLU — consistent with 2024 CLU regularization; no direct phone published for this dhaba."
+ },
+ {
+  "lead_id": 62,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [],
+  "confidence": "low",
+  "notes": "No dhaba listing found for Naurata village or any Parveen Mehta dhaba in Karnal; the Parveen Dhaba at Munak/Ballah (mappls) is a different area with no owner corroboration."
+ },
+ {
+  "lead_id": 63,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [
+   "https://web.archive.org/web/20211227104430/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf"
+  ],
+  "confidence": "low",
+  "notes": "Only Vishal-linked dhaba at Barana is Punjab Himachal Truck Dhaba (already attributed to lead 61); cannot tell whether this 2023 Vishal/Sheela/Sanyam CLU is the same family or a second plot, so no separate listing attributed."
+ },
+ {
+  "lead_id": 64,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [
+   "https://web.archive.org/web/20211227104430/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf"
+  ],
+  "confidence": "low",
+  "notes": "Manak Majra NH-44 dhabas in official list are Guru Kirpa (Bhajan Singh), Himachal Baddi-Kangra (Subhash Ratan), Surjeet Canteen, Khana Khazana/Chaudhary (Pardeep) — none linked to Raj Bala or Dharambeer Sandhu."
+ },
+ {
+  "lead_id": 65,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [],
+  "confidence": "low",
+  "notes": "No dhaba/eatery listing found for Basdhara village (only an Axis Bank branch shows up); no Virender Singh dhaba corroborated in Karnal."
+ },
+ {
+  "lead_id": 68,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [],
+  "confidence": "low",
+  "notes": "No Nand Kishor dhaba found in Karnal district; only same-name dhaba is in Patna, Bihar (no village match)."
+ },
+ {
+  "lead_id": 71,
+  "found": true,
+  "venue_name": "Tashan Dhaba / Vatika Dhaba (adjoining Cheema Filling Station)",
+  "phones": [],
+  "emails": [],
+  "people": [
+   {
+    "name": "Kuldeep (with Gourav), sons of Sh. Harbhajan",
+    "role": "Proprietors (per official district dhaba list, NH-44 km 149.300 East, village Samana Bahu)"
+   }
+  ],
+  "company_cin": "",
+  "sources": [
+   "https://web.archive.org/web/20211227104430/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf",
+   "https://www.tribuneindia.com/news/archive/haryana/40-dhabas-on-nh-44-lack-clu-nod-815160"
+  ],
+  "confidence": "medium",
+  "notes": "Name + village match: official list shows 'Tashan Dhaba/Vatika Dhaba, Prop. Kuldeep Gourav Ss/o Sh. Harbhajan, Samana Bahu'; Tribune notice list includes Tashan — consistent with Oct-2021 CLU grant; patronymic of applicant not verifiable and no direct phone published."
+ },
+ {
+  "lead_id": 73,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [
+   "https://web.archive.org/web/20211227104430/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf"
+  ],
+  "confidence": "low",
+  "notes": "Applicant name unknown ('DHABA') and Barana has 8+ listed dhabas (Divine Dhaba, Punjab Dhaba/Royal Hut, Tanishq/Preeto, Radhe-Radhe, Vihhan/Khalsa, Sharma Sudh, Shere Punjab) — attribution to any one would be a guess."
+ },
+ {
+  "lead_id": 74,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [
+   "https://web.archive.org/web/20211227104430/https://morth.nic.in/sites/default/files/covid_19/Dhaba%20List%20Ginni-converted.pdf"
+  ],
+  "confidence": "low",
+  "notes": "Closest lead: Rana-family 'Chadti Kalan Vaishno Dhaba' (Vinod/Dinesh/Rajesh Rana etc.) on NH-44 Gharaunda in official list, but Anil Kumar Rana and village Garhi Maltan are not named — surname-only match, not attributed."
+ },
+ {
+  "lead_id": 75,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [
+   "https://www.justdial.com/Karnal/Karnal-Sukhdev-Dhaba-G-T-Road/9999PX184-X184-170922110652-M2U4_BZDET"
+  ],
+  "confidence": "low",
+  "notes": "Karnal Sukhdev Dhaba operates at GT Road, Dadupur (Justdial; phone not shown publicly), but no source links it or any Dadupur eatery to Ram Chander."
+ },
+ {
+  "lead_id": 76,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [],
+  "confidence": "low",
+  "notes": "No dhaba listing found for Malakpur village, Karnal, and no Naresh Kumar dhaba corroborated."
+ },
+ {
+  "lead_id": 78,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [
+   "https://www.justdial.com/Gharaunda/Tiranga-Dhaba-Gharaunda-Gt-Road-Karnal-Sarai-Kohand/9999PX184-X184-230221160153-J7Y1_BZDET",
+   "https://www.justdial.com/Karnal/Neelkanth-Star-Karnal-Kohand/9999PX184-X184-230217145336-N1H7_BZDET"
+  ],
+  "confidence": "low",
+  "notes": "Kohand NH-44 has Tiranga Dhaba (08401532538 per Justdial), Neelkanth Star and Dharam Vaishno Dhaba, but no source connects any of them to Ravinder Kumar Gulati — not attributed."
+ },
+ {
+  "lead_id": 80,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [],
+  "confidence": "low",
+  "notes": "No Taluja-named dhaba/restaurant found in Karnal; applicant location given only as 'Karnal' so no village-level corroboration possible."
+ },
+ {
+  "lead_id": 81,
+  "found": false,
+  "venue_name": "",
+  "phones": [],
+  "emails": [],
+  "people": [],
+  "company_cin": "",
+  "sources": [],
+  "confidence": "low",
+  "notes": "No Singla-named dhaba found in Karnal (Singla hits are pumps/hospitals/labs); no corroborated listing for Kamlesh Singla or Raj Kumar Singla."
+ }
+]

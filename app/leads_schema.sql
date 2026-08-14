@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS leads (
     contact_phones  TEXT,
     details_json    TEXT NOT NULL,
     status          TEXT NOT NULL DEFAULT 'new',  -- new|contacted|replied|meeting_set|handed_off|deal|on_hold|dropped
+    site_status     TEXT NOT NULL DEFAULT 'unchecked',  -- hospitality: unchecked|vacant|under_construction|operating
     assigned_to     INTEGER REFERENCES users(id),
     batch_tag       TEXT NOT NULL,                -- import date YYYY-MM-DD, "new this week" = latest batch
     created_at      TEXT NOT NULL DEFAULT (datetime('now')),

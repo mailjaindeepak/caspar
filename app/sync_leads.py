@@ -13,7 +13,7 @@ import json
 import re
 import sqlite3
 import sys
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 import os
@@ -82,6 +82,34 @@ def find_contacts(book, *names):
     return "", ""
 
 
+def load_rera_promoter_tokens():
+    """Normalized token sets of every RERA promoter statewide, for the
+    'previous RERA launches' flag on parcel leads."""
+    try:
+        cx = sqlite3.connect(ROOT / "db" / "caspar.db")
+        names = [r[0] for r in cx.execute("SELECT DISTINCT promoter_raw FROM rera_raw")]
+        cx.close()
+    except sqlite3.Error:
+        return []
+    out = []
+    for n in names:
+        t = set(norm_name(n).split())
+        if t:
+            out.append(t)
+    return out
+
+
+def prev_rera_launches(promoter_tokens, *names):
+    for n in names:
+        t = set(norm_name(n).split())
+        if not t:
+            continue
+        for tt in promoter_tokens:
+            if t <= tt or tt <= t:
+                return "Yes"
+    return "No"
+
+
 def with_map_link(r):
     """Ensure the row dict has a map_link built from whatever coords it carries."""
     if not r.get("map_link"):
@@ -96,6 +124,7 @@ def with_map_link(r):
 def lead_rows_for_city(city):
     d = OUTPUTS / city
     book = load_contacts(d)
+    rera_toks = load_rera_promoter_tokens()
     rows = []
 
     # Target parcels (new/non-native developers) and ripe parcels overlap heavily
@@ -104,6 +133,8 @@ def lead_rows_for_city(city):
     for r in read_csv(d / "target_parcels_new_developers.csv"):
         dev = r.get("developer_group") or r.get("developer_raw") or "Unknown developer"
         emails, phones = find_contacts(book, r.get("developer_group"), r.get("developer_raw"))
+        r["prev_rera_launches"] = prev_rera_launches(
+            rera_toks, r.get("developer_group"), r.get("developer_raw"))
         rows.append(dict(
             kind="parcel", source_key=r["licence_no"], title=dev,
             subtitle=f"{r.get('purpose','')} · {r.get('area_acre','?')} ac · "
@@ -115,6 +146,8 @@ def lead_rows_for_city(city):
     for r in read_csv(d / "ripe_parcels.csv"):
         dev = r.get("developer_group") or r.get("developer_raw") or "Unknown developer"
         emails, phones = find_contacts(book, r.get("developer_group"), r.get("developer_raw"))
+        r["prev_rera_launches"] = prev_rera_launches(
+            rera_toks, r.get("developer_group"), r.get("developer_raw"))
         rows.append(dict(
             kind="parcel", source_key=r["licence_no"], title=dev,
             subtitle=f"{r.get('purpose','')} · {r.get('area_acre','?')} ac · "
@@ -130,6 +163,25 @@ def lead_rows_for_city(city):
             subtitle=f"{r.get('activity','')} · {r.get('area_acre','?')} ac · "
                      f"{r.get('village','')} ({r.get('sanction_date','')})",
             priority=None, emails="", phones="", details=r))
+
+    for r in read_csv(d / "pending_applications.csv"):
+        dev = r.get("developer_raw") or "Unknown applicant"
+        emails, phones = find_contacts(book, dev)
+        # "Pending" only means no disposal was recorded — old rows are often
+        # zombie files. Priority = freshness: 10 for filed-today, 0 at 3 years.
+        prio = None
+        try:
+            filed = datetime.strptime(r.get("receipt_date", ""), "%d/%m/%Y").date()
+            months = (date.today().year - filed.year) * 12 + date.today().month - filed.month
+            prio = round(max(0.0, (36 - months) / 3.6), 1)
+        except ValueError:
+            pass
+        rows.append(dict(
+            kind="application", source_key=f"app:{r['file_no']}", title=dev,
+            subtitle=f"{r.get('purpose','')} · {r.get('area_acre','?')} ac · "
+                     f"Sector {r.get('sector') or '—'} · applied "
+                     f"{r.get('receipt_date','')} ({r['file_no']})",
+            priority=prio, emails=emails, phones=phones, details=r))
 
     if city in CALL_LIST_CITIES:
         for r in read_csv(d / "call_list.csv"):

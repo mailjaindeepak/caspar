@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ lead['title'] }} — Caspar Leads{% endblock %}
+{% block title %}{{ lead['title'] }} — Caspar Wealth LMS{% endblock %}
 {% block content %}
 <p class="small"><a href="{{ url_for('city_page', city=lead['city']) }}">&larr; {{ lead['city']|title }}</a></p>
 <h1>{{ lead['title'] }}
@@ -7,8 +7,11 @@
   <span class="badge status-{{ lead['status'] }}">{{ STATUS_LABELS[lead['status']] }}</span>
 </h1>
 <p class="muted">{{ lead['subtitle'] }}
-  {% if details.get('map_link') %}
-    · <a href="{{ details['map_link'] }}" target="_blank" rel="noopener">📍 View parcel on map</a>
+  {% if details.get('map_link') or details.get('polygon_latlng') %}
+    · <a href="{{ url_for('lead_map', lead_id=lead['id']) }}">📍 View parcel on map</a>
+  {% endif %}
+  {% if lead['kind'] == 'hospitality' %}
+    · <span class="badge site-{{ lead['site_status'] }}">{{ SITE_LABELS[lead['site_status']] }}</span>
   {% endif %}
 </p>
 
@@ -32,6 +35,15 @@
           {% endfor %}
         </select>
       </label>
+      {% if lead['kind'] == 'hospitality' %}
+      <label>Site status (from satellite check)
+        <select name="site_status">
+          {% for s in SITE_STATUSES %}
+          <option value="{{ s }}" {{ 'selected' if lead['site_status']==s }}>{{ SITE_LABELS[s] }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      {% endif %}
     </div>
     <textarea name="note" placeholder="Add a note — call outcome, who you spoke to, next step…"></textarea>
     <div style="margin-top:8px"><button type="submit">Save</button></div>

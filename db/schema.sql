@@ -232,6 +232,9 @@ WHERE lower(activity) LIKE '%hotel%' OR lower(activity) LIKE '%motel%'
    OR lower(activity) LIKE '%resort%' OR lower(activity) LIKE '%banquet%'
    OR lower(activity) LIKE '%farm%house%' OR lower(activity) LIKE '%farmhouse%'
    OR lower(activity) LIKE '%amusement%' OR lower(activity) LIKE '%club%'
+   OR lower(activity) LIKE '%restaurant%' OR lower(activity) LIKE '%dhaba%'
+   OR lower(activity) LIKE '%guest%' OR lower(activity) LIKE '%boarding%'
+   OR lower(activity) LIKE '%marriage%' OR lower(activity) LIKE '%wedding%'
 ORDER BY clu_year DESC, area_acre DESC;
 
 DROP VIEW IF EXISTS v_call_list;

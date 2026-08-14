@@ -1,22 +1,28 @@
 {% extends "base.html" %}
-{% block title %}{{ c['city']|title }} — Caspar Leads{% endblock %}
+{% block title %}{{ c['city']|title }} — Caspar Wealth LMS{% endblock %}
 {% block content %}
 <h1>{{ c['city']|title }}
   {% if not c['released'] %}<span class="badge">hidden from team</span>{% endif %}
 </h1>
-<p class="muted small">
-  {{ leads|length }} leads shown{% if latest_batch %} · latest batch {{ latest_batch }}{% endif %} ·
-  <a href="{{ url_for('directory', city=c['city'], which='contacts') }}">Contacts directory</a> ·
-  <a href="{{ url_for('directory', city=c['city'], which='gatekeepers') }}">Gatekeepers</a>
-</p>
+<div class="tabs">
+  <a href="{{ url_for('city_page', city=c['city']) }}" class="{{ 'active' if not kind }}">All
+    <span class="count">{{ kind_counts.values()|sum }}</span></a>
+  {% for k, label in KIND_LABELS.items() %}
+  <a href="{{ url_for('city_page', city=c['city'], kind=k) }}"
+     class="{{ 'active' if kind==k }}">{{ 'Hospitality' if k == 'hospitality' else label + 's' }}
+    <span class="count">{{ kind_counts.get(k, 0) }}</span></a>
+  {% endfor %}
+</div>
+
+<div class="signal-strip">
+  <span class="live">{{ leads|length }} shown</span>
+  {% if latest_batch %}<span>refreshed {{ latest_batch }}</span>{% endif %}
+  <span><a href="{{ url_for('directory', city=c['city'], which='contacts') }}">Contacts</a> ·
+        <a href="{{ url_for('directory', city=c['city'], which='gatekeepers') }}">Gatekeepers</a></span>
+</div>
 
 <form class="filters" method="get">
-  <select name="kind" onchange="this.form.submit()">
-    <option value="">All kinds</option>
-    {% for k, label in KIND_LABELS.items() %}
-    <option value="{{ k }}" {{ 'selected' if kind==k }}>{{ label }}</option>
-    {% endfor %}
-  </select>
+  {% if kind %}<input type="hidden" name="kind" value="{{ kind }}">{% endif %}
   <select name="status" onchange="this.form.submit()">
     <option value="">All statuses</option>
     {% for s in STATUSES %}
@@ -28,8 +34,152 @@
     <option value="me" {{ 'selected' if assignee=='me' }}>Assigned to me</option>
     <option value="none" {{ 'selected' if assignee=='none' }}>Unassigned</option>
   </select>
+  {% if kind in ('parcel', 'hospitality', 'application') %}
+  <select name="min_acre" onchange="this.form.submit()">
+    <option value="">Any size</option>
+    {% for a in (1, 2, 4, 5, 10) %}
+    <option value="{{ a }}" {{ 'selected' if min_acre==a }}>≥ {{ a }} ac</option>
+    {% endfor %}
+  </select>
+  {% endif %}
+  {% if kind == 'hospitality' %}
+  <select name="site" onchange="this.form.submit()">
+    <option value="">Any site status</option>
+    {% for s in SITE_STATUSES %}
+    <option value="{{ s }}" {{ 'selected' if site==s }}>{{ SITE_LABELS[s] }}</option>
+    {% endfor %}
+  </select>
+  {% endif %}
 </form>
 
+{% if kind == 'parcel' %}
+<div class="scroll-x">
+<table>
+  <tr><th>Name</th><th>Acreage</th><th>Sector</th><th>Premiumness of plot</th>
+      <th>Licence type</th><th>Licence date</th><th>Valid till</th><th>HQ city</th>
+      <th>Luxury tier</th><th>Native / non-native</th><th>Prev RERA launches</th>
+      <th>Contact info</th><th>GIS</th><th>Status</th><th>Assignee</th></tr>
+  {% for l in leads %}
+  {% set d = l['d'] %}
+  <tr class="lead-row" onclick="location='{{ url_for('lead_page', lead_id=l['id']) }}'">
+    <td><a href="{{ url_for('lead_page', lead_id=l['id']) }}">{{ l['title'] }}</a>
+      {% if l['holder_differs'] %}
+      <div class="muted small">licence: {{ d['developer_raw'] }}</div>
+      {% endif %}</td>
+    <td><b>{{ l['area_fmt'] }}</b> ac</td>
+    <td>{{ d.get('sector') or '—' }}</td>
+    <td>{% if d.get('locality_tier') == 'prime' %}<span class="badge status-new">Prime</span>
+        {% elif d.get('locality_tier') %}<span class="badge">{{ d['locality_tier']|title }}</span>
+        {% else %}<span class="muted">—</span>{% endif %}</td>
+    <td class="small">{{ PURPOSE_LABELS.get(d.get('purpose'), d.get('purpose', '?')) }}</td>
+    <td class="small">{{ d.get('issue_date') }}
+      <div class="muted small">{{ d.get('licence_no') }}</div></td>
+    <td class="small">{{ d.get('valid_upto_raw') or '—' }}</td>
+    <td class="small">{{ d.get('hq_city') or '—' }}</td>
+    <td>{% if d.get('tier') %}<span class="badge kind">{{ d['tier'] }}</span>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td class="small">{% if d.get('is_non_native') in ('1', 1) %}Non-native
+        {% elif d.get('is_non_native') in ('0', 0) %}Native
+        {% else %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if d.get('prev_rera_launches') == 'No' %}<span class="badge status-new">No</span>
+        {% elif d.get('prev_rera_launches') == 'Yes' %}<span class="badge">Yes</span>
+        {% else %}<span class="muted">—</span>{% endif %}</td>
+    <td class="small">{% if l['contact_emails'] %}✉{% endif %}{% if l['contact_phones'] %} ☎{% endif %}
+      {% if not l['contact_emails'] and not l['contact_phones'] %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if d.get('map_link') or d.get('polygon_latlng') %}<a href="{{ url_for('lead_map', lead_id=l['id']) }}" onclick="event.stopPropagation()">📍 GIS</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td><span class="badge status-{{ l['status'] }}">{{ STATUS_LABELS[l['status']] }}</span></td>
+    <td class="small">{{ l['assignee_name'] or '' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="15" class="muted">No leads match these filters.</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% elif kind == 'application' %}
+<div class="scroll-x">
+<table>
+  <tr><th>Name</th><th>Application type</th><th>Acreage</th><th>Sector</th>
+      <th>Application date</th><th>Kind</th><th>Status</th><th>Assignee</th><th>Batch</th><th>GIS</th></tr>
+  {% for l in leads %}
+  {% set d = l['d'] %}
+  <tr class="lead-row" onclick="location='{{ url_for('lead_page', lead_id=l['id']) }}'">
+    <td><a href="{{ url_for('lead_page', lead_id=l['id']) }}">{{ l['title'] }}</a>
+      {% if l['priority'] is not none and l['priority'] < 2 %}
+      <div class="small"><span class="badge">old file — verify still live</span></div>
+      {% endif %}</td>
+    <td class="small">{{ d.get('purpose') }}</td>
+    <td><b>{{ l['area_fmt'] }}</b> ac</td>
+    <td>{{ d.get('sector') or '—' }}</td>
+    <td class="small">{{ d.get('receipt_date') }} <span class="muted">({{ d.get('file_no') }})</span></td>
+    <td><span class="badge kind">{{ KIND_LABELS[l['kind']] }}</span></td>
+    <td><span class="badge status-{{ l['status'] }}">{{ STATUS_LABELS[l['status']] }}</span></td>
+    <td class="small">{{ l['assignee_name'] or '' }}</td>
+    <td class="small muted">{{ l['batch_tag'] }}</td>
+    <td>{% if d.get('map_link') or d.get('polygon_latlng') %}<a href="{{ url_for('lead_map', lead_id=l['id']) }}" onclick="event.stopPropagation()">📍 GIS</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="10" class="muted">No leads match these filters.</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% elif kind == 'hospitality' %}
+<div class="scroll-x">
+<table>
+  <tr><th>Name</th><th>Location</th><th>Map</th><th>Activity</th><th>Acreage</th>
+      <th>Permission date</th><th>Lead type</th><th>Site status</th><th>Status</th><th>Assignee</th><th>Batch</th></tr>
+  {% for l in leads %}
+  {% set d = l['d'] %}
+  <tr class="lead-row" onclick="location='{{ url_for('lead_page', lead_id=l['id']) }}'">
+    <td><a href="{{ url_for('lead_page', lead_id=l['id']) }}">{{ l['title'] }}</a></td>
+    <td>{{ d.get('village') or '—' }}</td>
+    <td>{% if d.get('map_link') or d.get('polygon_latlng') %}<a href="{{ url_for('lead_map', lead_id=l['id']) }}" onclick="event.stopPropagation()">📍 GIS</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td class="small">{{ d.get('activity') }}</td>
+    <td><b>{{ l['area_fmt'] }}</b> ac</td>
+    <td class="small">{{ d.get('sanction_date') }}</td>
+    <td><span class="badge kind">{{ l['hosp_type'] }}</span></td>
+    <td><span class="badge site-{{ l['site_status'] }}">{{ SITE_LABELS[l['site_status']] }}</span></td>
+    <td><span class="badge status-{{ l['status'] }}">{{ STATUS_LABELS[l['status']] }}</span></td>
+    <td class="small">{{ l['assignee_name'] or '' }}</td>
+    <td class="small muted">{{ l['batch_tag'] }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="11" class="muted">No leads match these filters.</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% elif kind == 'developer' %}
+<div class="scroll-x">
+<table>
+  <tr><th>Developer name</th><th>Luxury potential score</th><th>Max ticket size</th>
+      <th>Scale</th><th>Group housing experience</th><th>Financial capacity</th>
+      <th>Hospitality CLU</th><th>Licensed but unlaunched land</th>
+      <th>Application under WIP</th><th>Clean record</th><th>Status</th><th>Assignee</th></tr>
+  {% for l in leads %}
+  {% set d = l['d'] %}
+  {% set s = d.get('dev_stats', {}) %}
+  <tr class="lead-row" onclick="location='{{ url_for('lead_page', lead_id=l['id']) }}'">
+    <td><a href="{{ url_for('lead_page', lead_id=l['id']) }}">{{ l['title'] }}</a>
+      {% if d.get('tier') %}<div class="small"><span class="badge kind">Tier {{ d['tier'] }}</span></div>{% endif %}</td>
+    <td>{% if d.get('score') %}<span class="prio">{{ d['score'] }}</span>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td class="small">{{ s.get('max_ticket') or '—' }}</td>
+    <td class="small">{% if s.get('n_licences') %}{{ s['n_licences'] }} licences · {{ s['licensed_acres'] }} ac · {{ s['n_rera'] }} RERA
+      {% else %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if s.get('group_housing') == 'Yes' %}<span class="badge status-new">Yes</span>{% else %}No{% endif %}</td>
+    <td class="small">{{ s.get('fin_capacity') or '—' }}</td>
+    <td class="small">{% if s.get('hosp_clu') %}{{ s['hosp_clu'] }} ({{ s['hosp_clu_acres'] }} ac){% else %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if s.get('unlaunched_n') %}<span class="badge status-new">{{ s['unlaunched_n'] }} · {{ s['unlaunched_acres'] }} ac</span>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td>{% if s.get('pending_n') %}<span class="badge kind">{{ s['pending_n'] }} · {{ s['pending_acres'] }} ac</span>{% else %}<span class="muted">—</span>{% endif %}</td>
+    <td class="small">{% if s.get('clean_record') == 'Clean' %}<span class="badge status-new">Clean</span>
+      {% elif s.get('clean_record') %}<span class="badge status-contacted">{{ s['clean_record'] }}</span>
+      {% else %}<span class="muted">—</span>{% endif %}</td>
+    <td><span class="badge status-{{ l['status'] }}">{{ STATUS_LABELS[l['status']] }}</span></td>
+    <td class="small">{{ l['assignee_name'] or '' }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="12" class="muted">No leads match these filters.</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% else %}
 <table>
   <tr><th>Priority</th><th>Lead</th><th>Kind</th><th>Status</th><th>Assignee</th><th>Batch</th></tr>
   {% for l in leads %}
@@ -46,4 +196,5 @@
   <tr><td colspan="6" class="muted">No leads match these filters.</td></tr>
   {% endfor %}
 </table>
+{% endif %}
 {% endblock %}

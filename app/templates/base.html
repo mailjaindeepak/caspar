@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{% block title %}Caspar Leads{% endblock %}</title>
+<title>{% block title %}Caspar Wealth Lead Management System{% endblock %}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <header>
-  <a class="brand" href="{{ url_for('dashboard') }}">Caspar <span>Leads</span></a>
+  <a class="brand" href="{{ url_for('dashboard') }}">Caspar Wealth <span>Lead Management System</span></a>
   <nav>
     {% if user %}
       {% if user['role'] == 'admin' %}<a href="{{ url_for('admin') }}">Admin</a>{% endif %}

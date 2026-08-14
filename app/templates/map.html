@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Map — {{ lead['title'] }}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<p class="small"><a href="{{ url_for('lead_page', lead_id=lead['id']) }}">&larr; {{ lead['title'] }}</a></p>
+<h1>{{ lead['title'] }} — parcel map</h1>
+<p class="muted small">{{ lead['subtitle'] }}
+  {% if gmaps_link %} · <a href="{{ gmaps_link }}" target="_blank" rel="noopener">Open in Google Maps</a>{% endif %}
+  {% if not polys %} · <span class="badge">no polygon in government GIS — showing centre point only</span>{% endif %}
+</p>
+<div id="map" style="height:72vh;border:1px solid var(--line);border-radius:10px"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const polys = {{ polys|tojson }};
+  const center = {{ center|tojson }};
+  const map = L.map('map');
+  const sat = L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {maxZoom: 19, attribution: 'Imagery &copy; Esri'});
+  const streets = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {maxZoom: 19, attribution: '&copy; OpenStreetMap'});
+  sat.addTo(map);
+  L.control.layers({'Satellite': sat, 'Streets': streets}).addTo(map);
+  if (polys.length) {
+    const layer = L.polygon(polys, {color: '#ffd400', weight: 3, fillOpacity: 0.08}).addTo(map);
+    map.fitBounds(layer.getBounds().pad(0.4));
+  } else {
+    L.marker(center).addTo(map);
+    map.setView(center, 17);
+  }
+</script>
+{% endblock %}
