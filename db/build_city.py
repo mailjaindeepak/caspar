@@ -74,6 +74,11 @@ def build(cx: sqlite3.Connection, city: str) -> None:
                 (c[7], c[3], f(c[4]), c[5], c[6], c[8], c[9], district, c[1], NOW))
             n_apps += 1
 
+    # preserve REP-I enrichment (citations, promoter contacts) across the
+    # rebuild — the harera CSV never carries these, so a plain reload wipes them
+    enrich = {row[0]: row[1:] for row in cx.execute(
+        "SELECT rera_reg_no, licence_no_cited, promoter_email, promoter_phone "
+        "FROM rera_raw WHERE district=?", (city.upper(),))}
     cx.execute("DELETE FROM rera_raw WHERE district=?", (city.upper(),))
     for r in read_csv(d / "harera_projects.csv"):
         blob = f"{r.get('Project Name','')} {r.get('Project Address','')}"
@@ -89,6 +94,12 @@ def build(cx: sqlite3.Connection, city: str) -> None:
              r.get("bench_path", ""), r.get("links", ""),
              f(am.group(1)) if am else None, sm.group(1).upper() if sm else None,
              None, None, None, NOW))
+    for reg, (cited, em, ph) in enrich.items():
+        cx.execute(
+            "UPDATE rera_raw SET licence_no_cited=COALESCE(licence_no_cited, ?),"
+            " promoter_email=COALESCE(promoter_email, ?),"
+            " promoter_phone=COALESCE(promoter_phone, ?) WHERE rera_reg_no=?",
+            (cited, em, ph, reg))
 
     cx.execute("DELETE FROM clu_raw WHERE district=?", (district,))
     for r in read_csv(d / "clu_permissions.csv"):

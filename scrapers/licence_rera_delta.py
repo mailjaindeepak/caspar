@@ -49,8 +49,9 @@ def main() -> None:
             w.writerows(out_rows)
     print(f"{city}: {len(out_rows)} licences ({min_year}+) with no RERA match -> {out}")
     for r in out_rows:
+        dev_plan = r.get("DevPlanRaw") or r.get("DevPlan") or ""
         print(f"  {r['issue_year']}  {r['Purpose']:10} {r['Area_acre']:>8} ac  "
-              f"{r['DevPlan']:22} Sec {r['Sector']:8} {r['Developer'][:45]}")
+              f"{dev_plan:22} Sec {r['Sector']:8} {r['Developer'][:45]}")
 
 
 if __name__ == "__main__":

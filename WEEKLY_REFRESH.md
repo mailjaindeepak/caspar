@@ -34,8 +34,14 @@ Notes from past runs:
 ```
 python db/build_city.py <city>          # for each city with new raw data
 python scrapers/map_licences_to_rera.py
+python scrapers/apply_licence_citations.py   # MUST run after map — deterministic
+                                             # citation links kill false "ripe" parcels
 python scrapers/licence_rera_delta.py
 ```
+
+Sanity check before exporting: if the ripe-parcel count JUMPED versus last week,
+suspect missing citation links (a fuzzy-only rebuild resurrects already-launched
+landowner parcels) — do not push leads to the team until the count is explained.
 
 ## 3. Re-export outputs
 
