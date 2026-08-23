@@ -19,10 +19,7 @@ Reference feasibility study (Autograph, Greater Noida West): [docs/autograph_gnw
 3. **After any licence↔RERA mapping, run `python scrapers/apply_licence_citations.py`.** A fuzzy-only rebuild
    resurrects already-launched parcels into the ripe list. `db/build_city.py` preserves RERA enrichment — use it,
    don't hand-roll rebuilds.
-4. **Build work is paused until payment is confirmed** (as of Aug 2026). Keep the weekly refresh running and fix
-   correctness bugs, but don't start new features from the Taran note unless Deepak says the money/mandate is
-   through. When in doubt, ask.
-5. Credentials (`caspar-admin-2026`, `team-karnal-2026`) appear in docs/seed — treat as known-weak, don't spread
+4. Credentials (`caspar-admin-2026`, `team-karnal-2026`) appear in docs/seed — treat as known-weak, don't spread
    them further, and don't paste them into anything shared externally.
 
 ## Key commands
