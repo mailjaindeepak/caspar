@@ -26,6 +26,7 @@ Reference feasibility study (Autograph, Greater Noida West): [docs/autograph_gnw
 ```
 python app/server.py                       # lead app, port 8765 (LAN); app/start_local.bat on Windows
 python app/manage.py status                # users, released cities
+python scrapers/dtcp_clu.py                # CLU refresh: all 7 districts, last 2 years, merged (full history kept)
 python db/build_city.py <city>             # rebuild caspar.db for a city
 python scrapers/map_licences_to_rera.py && python scrapers/apply_licence_citations.py
 python db/export_outputs.py <city>         # outputs/<city>/ (ripe parcels, hospitality, call list…)

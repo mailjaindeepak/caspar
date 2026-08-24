@@ -1,5 +1,5 @@
 ﻿licence_no,issue_date,purpose,area_acre,dev_plan,sector,developer_raw,valid_upto_raw,developer_group,tier,score,centroid_lat,centroid_lng,parcel_id,locality_tier,entity_rank,locality_rank,first_seen_year,is_new,is_non_native,hq_city,need_score
-143 OF 2026,14/07/2026,DDJAY-APHP,15.565,ROHTAK,27C,Galaxy Magnum Projects Pvt. Ltd.,13/07/2031,Galaxy Magnum Group,B-,,28.841124372717648,76.6698348062817,409,,2,0,,,1,New Delhi (Sainik Farms),7
-102 OF 2026,26/06/2026,DDJAY-APHP,20.8239,ROHTAK,21E,Consonance Infra LLP,25/05/2031,Consonance Infra LLP,C+,,,,417,,1,0,,,,,5
-134 OF 2026,07/07/2026,DDJAY-APHP,12.5753,ROHTAK,NA,Shyamprem Estate Private Limited,06/07/2031,Shyamprem Estate Private Limited,C,,28.76443966301942,76.78449695673059,420,,1,0,2026,1,,,5
-116 OF 2026,11/06/2026,DDJAY-APHP,5.9597,ROHTAK,25D,AARADHYA INFRASPACES LLP,10/06/2031,Aaradhya Infraspaces Llp,C,,28.841671792268276,76.63452992306956,418,,1,0,2026,1,,,3
+143 OF 2026,14/07/2026,DDJAY-APHP,15.565,ROHTAK,27C,Galaxy Magnum Projects Pvt. Ltd.,13/07/2031,Galaxy Magnum Group,B-,,28.841124372717648,76.6698348062817,3058,,2,0,2026,1,1,New Delhi (Sainik Farms),7
+102 OF 2026,26/06/2026,DDJAY-APHP,20.8239,ROHTAK,21E,Consonance Infra LLP,25/05/2031,Consonance Infra LLP,C+,,28.865951357641745,76.53181343528824,3066,,1,0,2026,1,,,5
+134 OF 2026,07/07/2026,DDJAY-APHP,12.5753,ROHTAK,NA,Shyamprem Estate Private Limited,06/07/2031,Shyamprem Estate Private Limited,C,,28.76443966301942,76.78449695673059,3069,,1,0,2026,1,,,5
+116 OF 2026,11/06/2026,DDJAY-APHP,5.9597,ROHTAK,25D,AARADHYA INFRASPACES LLP,10/06/2031,Aaradhya Infraspaces Llp,C,,28.841671792268276,76.63452992306956,3067,,1,0,2026,1,,,3

@@ -19,6 +19,7 @@ CLU/KL-1134A,RAJ BALA WO SH DHRAMBEER SANDHU,Manaka majra,Dhaba,0.24700384989843
 CLU/KL-956B,ANNU BANSAL,Basdhara,Banquet Hall,3.751278769218604,19/04/2022,2022,Karnal
 CLU/KL-1146A,Brij Kumar Sharma and Vijay Sharma,Nawal,Banquet Hall,2.7218386600969637,01/12/2022,2022,Karnal
 CLU/KL-1105A,Vipin Mann Son of Sh. Bhagat Singh Mann,Ghoghripur,Banquet Hall,2.3750018532887225,28/03/2022,2022,Karnal
+clu/kl-1087,sh. virender singh s/o sh. bhupender singh,basdhara,dhaba,0.7624973436194975,29/11/2022,2022,Karnal
 CLU/KL-1090A,NARENDER AJAY GOODRICH,Kurtail,Restaurant,0.4942103260305521,26/08/2022,2022,Karnal
 CLU/KL-1133A,"Ashish ,Rakesh, Ujjaldeep and Dilpreet",Basdhara,Restaurant,0.46930212559861223,22/10/2022,2022,Karnal
 CLU/KL-1048A,NAND KISHOR,Basdhara,Dhaba,0.34755341178098575,20/05/2022,2022,Karnal
@@ -32,11 +33,43 @@ CLU/KL-1050A,ANIL KUMAR RANA,Garhi maltan,Dhaba,0.3899813682707087,08/04/2021,20
 CLU/KL-1060A,RAM CHNADER,Dadupur,Dhaba,0.22931853338143646,19/04/2021,2021,Karnal
 CLU/KL-963,Naresh Kumar S/o Dhan Singh,Villagr Malakpur,Dhaba,,14/09/2020,2020,Karnal
 CLU/KL-929,Smt. Vijay Laxmi W/o Sh. Narinder Kumar,"Part-V, Karnal",Restaurant,,15/02/2019,2019,Karnal
-CLU/KL-945,Smt. Shalini Gupta W/o Sh. Sandeep Kumar,Karnal,Banquet Hall,,19/03/2019,2019,Karnal
 CLU/KL-936,Sh. Ravinder Kumar Gulati S/o Sh. Om Parkash and others,Village Kohand,Dhaba,,30/05/2019,2019,Karnal
+CLU/KL-945,Smt. Shalini Gupta W/o Sh. Sandeep Kumar,Karnal,Banquet Hall,,19/03/2019,2019,Karnal
 CLU/KL-907,Sh. Rajesh S/o Sh. Om Prakash & Sh. Yajvinder Lather S/o Sh. Sukhbir Singh Lather,Karnal,Restaurant (Commercial),,15/01/2018,2018,Karnal
 CLU/KL-910,Sh. Jatin Taluja S/o Sundar Taluja,Karnal,Dhaba,,29/01/2018,2018,Karnal
 CLU/KL-916,"S/Sh. Mahender Kumar, Anil Kumar Ss/o Sh. Ved Parkash, Smt. Santosh Rani W/o Sh. Mahender Kumar",Assandh,Motel without Banquet Facility,,01/05/2018,2018,Karnal
 CLU/KL-918,Smt. Kamlesh Singla W/o Sh. Raj Kumar,Karnal,Dhaba,,18/05/2018,2018,Karnal
 CLU/KL-876,Smt. Annu Bansal W/o Sh. Ajay Bansal,Gharaunda,Amusement Park,,06/03/2017,2017,Karnal
 CLU/KL-904,Sh. Surender Pal Singh S/o Sh. Dilip Singh,Nilokheri-Taraori,Amusement Park,,29/11/2017,2017,Karnal
+CLU/HR-826,Smt. Gyanwati W/o Late Sh. Munshi Ram,Hisar,Farmhouse,,01/09/2016,2016,Karnal
+CLU/KL-821,Comfortworth Hotels Pvt. Ltd.,Addl. Area-III Panipat,Motel without Banquet Facilities,,12/09/2014,2014,Karnal
+CLU/KL-854,"Smt. Meenakshi W/o Sh. Yoginder, Smt. Meena devi W/o Sh. Ravinder",Nilokheri-Taraori,Dhaba,,15/07/2014,2014,Karnal
+CLU/KL-801,"M/s Ashoka Panjabi Dhaba, Ashok Kumar, Krishan Lal & others",Karnal Part-V,Dhaba,0.6634773626960162,14/11/2013,2013,Karnal
+CLU/KL-816,"Sh. Mehar Chand Bhatia,",Karnal,Restaurant,,26/06/2013,2013,Karnal
+CLU/KL-819,Sh. Karan Kumar S/o Sh. Raj Kumar,Karnal,Farmhouse,,27/06/2013,2013,Karnal
+CLU/KL-820,Sh. Karan Kumar S/o Sh. Raj Kumar,Karnal,Farmhouse,,01/07/2013,2013,Karnal
+CLU/KL-761,Paramjit Kaur w/o Sh. Surinder Pal Singh,Karnal,Farmhouse,15.802622279989917,10/07/2012,2012,Karnal
+CLU/KL-818,Sh. Subash Chand Gupta through Sh. Rajiv Gupta,Nilokheri-Taraori,Restaurant,,27/11/2012,2012,Karnal
+CLU/KL-648,"Raghbir Singh, Jasbir Singh Ss/o Sukhdev Singh",Tarori-Nilokheri,Dhaba,0.47814849043455915,29/12/2011,2011,Karnal
+CLU/KL-576,"M/s Penguin Resorts Pvt. Ltd,",Uchana,Motel,,01/09/2011,2011,Karnal
+CLU/KL-747,"Savinder Singh S/o Mehar Singh & others Samana Bahu, Tehsil-Nilokheri, Karnal",Nilokheri-Taraori,Dhaba,,21/10/2011,2011,Karnal
+CLU/KL-748,Asha Trohan w/o Rajnish Kumar Trehan,NULL,Dhaba,,05/09/2011,2011,Karnal
+CLU/KL-777,"Ram Chander S/o Sh. Amar singh, Smt Omwati W/o Ram Chander",Karnal,Banquet Hall,,16/09/2011,2011,Karnal
+CLU/KL-806,"Jitender Mehta, Vil. Saidpra Main Kacherwa Road karnal",Karnal,Banquet Hall,,01/12/2011,2011,Karnal
+CLU/KL-808,Hawa Singh S/o Mahes Singh etc.,Karnal,Farmhouse,,01/07/2011,2011,Karnal
+CLU/KL-756,M/s Jyoti Book Depot Pvt. Ltd.,"6 K.M. Stone, Kaithal Road Karnal",Banquet Hall,2.800195707289108,15/04/2010,2010,Karnal
+CLU/KL-616,"Sh. Vijay Pal Singh, Satpal Singh, Joginder Singh, Narender Singh All Ss/o Ram Chander",G.T. Road Uchana 130 K.M. Stone (Karnal),Dhaba,,07/05/2010,2010,Karnal
+CLU/KL-653,Dharam Vaisno Dhaba,Panipat,Dhaba,,17/06/2010,2010,Karnal
+CLU/KL-732,Manoj Gupta,"G.T. Road, Karnal to Ambala (Karnal)",Resort,,03/03/2010,2010,Karnal
+CLU/KL-735,Smt. Harbhajan Kaur W/o Sh. Hardaman Singh,Karnal,Amusement Park,,18/02/2010,2010,Karnal
+CLU/KL-742,"Mahesh Kumar Bhatia, Yogesh Bhatia, Seema Bhtia, Gitika Bhatia","G.T. Road, Jhanjhari (Karnal)",Motel without Banquet Facilities,,03/12/2010,2010,Karnal
+CLU/KL-762,Mohinder Singh Narwal S/o Sh. Balbir Singh Narwal,"7 K.M. Stone, Karnal-Kaithal Road (Karnal)",Farmhouse,,04/06/2010,2010,Karnal
+CLU/KL-765,"S/Sh. Narayan Dass S/o Ram Chander, Koshalya Devi W/o Narayan Dass, Vikram Raheja S/o Narayan Dass",Kunjpura Road Newal (Karnal),Amusement park,,07/09/2010,2010,Karnal
+CLU/KL-773,Sh. Palwinder Singh S/o Sh. Raj Singh Smt. Lakhwinder Kaur W/o Sh. Raj Singh,"3 K.M. Stoen, Kaithal Road Assandh",Marriage Palace,,07/05/2010,2010,Karnal
+CLU/KL-782,Banwari Lal S/o Chandan Singh (Farm House),Sarai Kohand G.T. Road Karnal,Farmhouse,,11/06/2010,2010,Karnal
+CLU/KL-737,Sh. Manbeer Chaudhary,Karnal,Health Club,2.1826799049139334,10/02/2009,2009,Karnal
+CLU/KL-738,M/s Jewel Classic Hotel Pvt. Ltd.,Karnal,Health Club,,10/02/2009,2009,Karnal
+CLU/KL-755,Sh. Karandeep Singh Deswal & Sh. Banwari Lal Deshwal,Gharaunda,Amusement Park,,26/11/2009,2009,Karnal
+CLU/KL-610,M.C. Bhatia,Karnal,Restaurant,0.4942103260305521,26/11/2008,2008,Karnal
+CLU/KL-603,M/s Rans Hotels and Resorts Pvt. Ltd.,Gharaunda,Hotel & Resorts,,02/08/2007,2007,Karnal
+CLU/KL-669,M/s Jewel Classic Hotel Pvt. Ltd.,"Sec-32, Phooshgarh, Karnal",Hotel & Restaurant,,24/01/2007,2007,Karnal

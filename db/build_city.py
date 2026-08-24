@@ -14,6 +14,16 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+# A developer name can resolve to both an auto-created tier-C stub and a
+# hand-curated entity. Always pick the curated one, deterministically, so a
+# rebuild cannot flip the link (or emit the parcel twice, once per entity).
+PICK_ENTITY = (
+    "SELECT ea.entity_id FROM entity_alias ea"
+    " JOIN entity e ON e.entity_id = ea.entity_id"
+    " WHERE ea.alias_norm = ?"
+    " ORDER BY (e.tier = 'C') ASC, (e.notes IS NULL) ASC, ea.entity_id ASC"
+    " LIMIT 1")
+
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scrapers"))
 from cluster_developers import norm            # noqa: E402
@@ -109,7 +119,8 @@ def build(cx: sqlite3.Connection, city: str) -> None:
             (r.get("File No", ""), r.get("Applicant Name", ""),
              r.get("Location/ Controlled Area", ""), r.get("Purpose", ""),
              r.get("Activity", ""), sqm, (sqm / 4046.86) if sqm else None,
-             r.get("District", ""), r.get("CLU Permission on", ""),
+             (r.get("District", "") or "").strip().title(),   # register has the odd lowercase row
+             r.get("CLU Permission on", ""),
              r.get("CLU Corrigendum on", ""), int(r.get("clu_year", 0) or 0), NOW))
 
     cx.execute("DELETE FROM agent_raw WHERE district=?", (city.upper(),))
@@ -153,8 +164,7 @@ def build(cx: sqlite3.Connection, city: str) -> None:
         k = norm(dev or "")
         if not k:
             continue
-        hit = cx.execute("SELECT entity_id FROM entity_alias WHERE alias_norm=? LIMIT 1",
-                         (k,)).fetchone()
+        hit = cx.execute(PICK_ENTITY, (k,)).fetchone()
         if not hit:
             canon = (dev or "").title().strip()
             cx.execute("INSERT OR IGNORE INTO entity (canonical_name, tier) VALUES (?,'C')",
@@ -165,14 +175,26 @@ def build(cx: sqlite3.Connection, city: str) -> None:
                 continue
             hit = row
         if not cx.execute("SELECT 1 FROM entity_alias WHERE source='licence' AND"
-                          " source_row_key=? AND entity_id=?",
-                          (lic_no, hit[0])).fetchone():
+                          " source_row_key=? AND alias_norm=?",
+                          (lic_no, k)).fetchone():
             cx.execute(
                 "INSERT INTO entity_alias (entity_id, alias_name, alias_norm, source,"
                 " source_row_key, method, confidence) VALUES (?,?,?,?,?,?,?)",
                 (hit[0], dev, k, "licence", lic_no, "exact_norm", 0.95))
 
     # parcels + rera links
+    # preserve DTCP GIS polygons/centroids across the rebuild — they come from
+    # scrapers/fetch_polygons.py, not from any CSV, so a plain reload wipes them
+    geo = {row[0]: row[1:] for row in cx.execute(
+        "SELECT lc_case_no, wkt_utm43n, centroid_lat, centroid_lng FROM parcel"
+        " WHERE city=? AND lc_case_no IS NOT NULL", (district,))}
+    # preserve hand-confirmed links (method='manual'): nothing regenerates them,
+    # and losing one resurrects an already-launched parcel into the ripe list
+    manual = cx.execute(
+        "SELECT p.lc_case_no, pl.source, pl.source_row_key, pl.method, pl.confidence,"
+        " pl.status, pl.reviewed_by, pl.reviewed_at"
+        " FROM parcel_link pl JOIN parcel p ON p.parcel_id = pl.parcel_id"
+        " WHERE p.city=? AND pl.method='manual'", (district,)).fetchall()
     cx.execute("DELETE FROM parcel_link WHERE parcel_id IN"
                " (SELECT parcel_id FROM parcel WHERE city=?)", (district,))
     cx.execute("DELETE FROM parcel WHERE city=?", (district,))
@@ -180,13 +202,16 @@ def build(cx: sqlite3.Connection, city: str) -> None:
             "SELECT lc_case_no, developer_raw, sector, dev_plan, sum(area_acre)"
             " FROM licence_raw WHERE district=? AND lc_case_no IS NOT NULL"
             " GROUP BY lc_case_no", (district,)).fetchall():
-        ent = cx.execute("SELECT entity_id FROM entity_alias WHERE alias_norm=? LIMIT 1",
-                         (norm(dev or ""),)).fetchone()
+        ent = cx.execute(PICK_ENTITY, (norm(dev or ""),)).fetchone()
         cx.execute(
             "INSERT INTO parcel (city, dev_plan, sector, area_acre, current_stage,"
             " controlling_entity_id, lc_case_no) VALUES (?,?,?,?,?,?,?)",
             (district, dev_plan, sector, area, "licensed",
              ent[0] if ent else None, lc))
+    for lc, (wkt, lat, lng) in geo.items():
+        cx.execute(
+            "UPDATE parcel SET wkt_utm43n=?, centroid_lat=?, centroid_lng=?"
+            " WHERE city=? AND lc_case_no=?", (wkt, lat, lng, district, lc))
 
     lic_to_lc = dict(cx.execute(
         "SELECT licence_no, lc_case_no FROM licence_raw WHERE district=?",
@@ -210,6 +235,19 @@ def build(cx: sqlite3.Connection, city: str) -> None:
             cx.execute("UPDATE parcel SET current_stage='rera_registered'"
                        " WHERE parcel_id=?", (pid[0],))
         n_links += 1
+
+    for lc, src, key, meth, conf, st, rby, rat in manual:
+        pid = cx.execute("SELECT parcel_id FROM parcel WHERE lc_case_no=? AND city=?",
+                         (lc, district)).fetchone()
+        if not pid:
+            continue
+        cx.execute(
+            "INSERT INTO parcel_link (parcel_id, source, source_row_key, method,"
+            " confidence, status, reviewed_by, reviewed_at) VALUES (?,?,?,?,?,?,?,?)",
+            (pid[0], src, key, meth, conf, st, rby, rat))
+        if st == 'manual-confirmed':
+            cx.execute("UPDATE parcel SET current_stage='rera_registered'"
+                       " WHERE parcel_id=?", (pid[0],))
 
     n_l = cx.execute("SELECT count(*) FROM licence_raw WHERE district=?",
                      (district,)).fetchone()[0]

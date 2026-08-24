@@ -11,8 +11,10 @@ Run from repo root. Steps in order; each is safe to re-run.
 ```
 python scrapers/dtcp_licences.py        # licence register (the highest-value diff)
 python scrapers/dtcp_pending.py --fetch # PENDING applications (earliest signal)
-python scrapers/dtcp_clu.py             # CLU permissions (hospitality channel)
-python scrapers/harera_projects.py      # RERA registrations
+python scrapers/dtcp_clu.py             # CLU permissions (hospitality channel) — ALL 7 districts,
+                                        # last year + this year, merged into data/clu_all.csv and
+                                        # each data/<city>/clu_permissions.csv (full history kept)
+python scrapers/harera_projects.py      # RERA registrations, all 7 cities by default
 python scrapers/harera_agents.py        # agent registry (monthly is fine)
 ```
 
@@ -22,6 +24,11 @@ count collapses, it may have been taken down; flag it in the report. GET only
 (HEAD redirects to login). A file_no that LEAVES pending and APPEARS in the
 granted register that week = licence granted = the hottest possible signal;
 call it out in the report.
+
+CLU notes: the register goes back to the 1990s and `caspar.db` holds the full
+history (backfilled 23 Aug 2026). The weekly run re-fetches only the last two
+years; a failed year keeps its existing rows. The scraper prints "+N new file
+nos" per district — those are the week's genuinely new CLUs.
 
 Notes from past runs:
 - jamabandi/HARIS endpoints are flaky (503s); district-portal PDFs are primary.
@@ -39,9 +46,19 @@ python scrapers/apply_licence_citations.py   # MUST run after map — determinis
 python scrapers/licence_rera_delta.py
 ```
 
+`build_city.py` deletes and reloads each city's parcels, so anything that does
+NOT come from a CSV has to be preserved explicitly. It now carries three things
+across a rebuild — REP-I enrichment, DTCP GIS polygons/centroids, and
+hand-confirmed `parcel_link` rows (`method='manual'`). If you add another
+curated-in-DB field, teach `build_city.py` to preserve it too, or the next
+refresh silently drops it.
+
 Sanity check before exporting: if the ripe-parcel count JUMPED versus last week,
-suspect missing citation links (a fuzzy-only rebuild resurrects already-launched
-landowner parcels) — do not push leads to the team until the count is explained.
+suspect missing citation links or lost manual links (either resurrects an
+already-launched parcel) — do not push leads to the team until the count is
+explained. Quick check:
+`select count(*) from parcel_link where method='manual'` and
+`select count(*) from parcel where centroid_lat is not null` should not fall.
 
 ## 3. Re-export outputs
 
@@ -64,6 +81,11 @@ from caspar.db; hospitality CLU polygons live from the DTCP GIS API).
 This appends only leads not seen before (keyed by licence/CLU no.), tagged with
 today's date, for **released cities only**. Team statuses/notes are never
 touched. Unreleased cities' data refreshes in `outputs/` but stays invisible.
+
+Hospitality leads are limited to CLUs from `HOSPITALITY_MIN_YEAR` (2017, set in
+`app/sync_leads.py`, env `CASPAR_HOSPITALITY_MIN_YEAR`) onward — the intel DB
+holds CLUs back to the 1990s but old hotel/banquet permissions are built or
+lapsed and would flood the team lane. Change it deliberately, not by accident.
 
 ## 5. Review + commit
 

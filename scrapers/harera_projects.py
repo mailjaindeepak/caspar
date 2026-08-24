@@ -1,6 +1,6 @@
 """Scrape HARERA (haryanarera.gov.in) public project search by district.
 
-Usage: python harera_projects.py KARNAL [DISTRICT2 ...]
+Usage: python harera_projects.py [DISTRICT ...]   (default: all 7 pipeline cities)
 Writes data/<district>/harera_projects.csv
 """
 import csv
@@ -21,6 +21,9 @@ DISTRICT_CODES = {
     "PANIPAT": "71", "REWARI": "72", "ROHTAK": "73", "SIRSA": "74",
     "SONIPAT": "75", "YAMUNANAGAR": "76", "NUH": "604", "ALL": "999",
 }
+
+PIPELINE_DISTRICTS = ["KARNAL", "PANIPAT", "SONIPAT", "ROHTAK",
+                      "HISAR", "AMBALA", "KURUKSHETRA"]
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -75,7 +78,9 @@ def scrape_district(session: requests.Session, district: str) -> list[dict]:
 
 
 def main() -> None:
-    districts = sys.argv[1:] or ["KARNAL"]
+    # default to every city the pipeline exports — a KARNAL-only default left
+    # the other six districts' RERA data stale while outputs were re-exported
+    districts = sys.argv[1:] or PIPELINE_DISTRICTS
     session = requests.Session()
     session.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
     session.get(URL_TMPL.format(bench="1"), timeout=60)  # establish ci_session cookie

@@ -14,3 +14,6 @@ db/leads.db
 
 # Local env / secrets
 .env
+
+# Office lock/temp files
+~$*

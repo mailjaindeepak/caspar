@@ -28,6 +28,10 @@ SCHEMA = ROOT / "app" / "leads_schema.sql"
 # city folder) — only Karnal's is genuine. Drop this once export is fixed.
 CALL_LIST_CITIES = {"karnal"}
 
+# Oldest CLU year that becomes a hospitality lead in the team app (the intel DB
+# keeps everything). 2017 = what the team has seen since launch.
+HOSPITALITY_MIN_YEAR = int(os.environ.get("CASPAR_HOSPITALITY_MIN_YEAR", "2017"))
+
 _CORP = re.compile(r"\b(PVT|PRIVATE|LTD|LIMITED|LLP|CO|COMPANY|BUILDERS?|"
                    r"DEVELOPERS?|INFRA(STRUCTURE)?|REALTY|REALTORS?|GROUP)\b")
 
@@ -157,6 +161,14 @@ def lead_rows_for_city(city):
             emails=emails, phones=phones, details=with_map_link(r)))
 
     for r in read_csv(d / "hospitality_leads.csv"):
+        # caspar.db now holds CLU history back to ~2000; the team lane only
+        # gets recent permissions (older hotel/banquet CLUs are long built or
+        # lapsed). Raise/lower HOSPITALITY_MIN_YEAR deliberately, not by accident.
+        try:
+            if int(r.get("clu_year") or 0) < HOSPITALITY_MIN_YEAR:
+                continue
+        except ValueError:
+            pass
         rows.append(dict(
             kind="hospitality", source_key=r["clu_file_no"],
             title=r.get("applicant") or "Unknown applicant",
