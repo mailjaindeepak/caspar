@@ -15,7 +15,18 @@ DB = ROOT / "db" / "caspar.db"
 
 
 def norm_lic(x: str) -> str:
-    return re.sub(r"\s+", " ", x.upper().strip())
+    """Canonicalise a licence number to 'N OF YYYY'.
+
+    Promoters type the licence number by hand on the REP-I form, so the same
+    licence arrives as '09 OF 2025', '9 OF 2025', '74OF2008', '96OF 2024',
+    '46  OF 2026' or '69 OF2023'. Matching on the raw string silently drops
+    those citations, which resurrects an already-launched parcel into the ripe
+    list — the exact failure this script exists to prevent. Ranges
+    ('296-301 OF 2005') are left alone; the caller expands them.
+    """
+    t = re.sub(r"\s+", " ", x.upper().strip())
+    m = re.match(r"^0*(\d+)\s*OF\s*(\d{4})$", t)
+    return f"{m.group(1)} OF {m.group(2)}" if m else t
 
 
 def main() -> None:
