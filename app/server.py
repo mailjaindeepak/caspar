@@ -271,8 +271,17 @@ def city_page(city):
     params = [city]
     if kind:
         sql += " AND l.kind=?"; params.append(kind)
-    if status:
+    # Dropped leads are hidden by default: a parcel excluded for a known,
+    # recorded reason (already RERA-registered, etc.) otherwise reads as a live
+    # opportunity and gets re-litigated every time someone opens the list. The
+    # rows and their notes are kept — pick "Dropped" or "All incl. dropped" to
+    # see them, which is where the reason for the exclusion lives.
+    if status == "all":
+        pass
+    elif status:
         sql += " AND l.status=?"; params.append(status)
+    else:
+        sql += " AND l.status<>'dropped'"
     if assignee == "me":
         sql += " AND l.assigned_to=?"; params.append(g.user["id"])
     elif assignee == "none":
@@ -310,13 +319,22 @@ def city_page(city):
                                   -(float(l["d"].get("area_acre") or 0))))
     latest_batch = db().execute("SELECT max(batch_tag) FROM leads WHERE city=?",
                                 (city,)).fetchone()[0]
-    kind_counts = dict(db().execute(
-        "SELECT kind, count(*) FROM leads WHERE city=? GROUP BY kind",
-        (city,)).fetchall())
+    # counts must match what the tabs actually show, or "Land parcels 9" over a
+    # list of 5 looks like missing leads
+    count_sql = "SELECT kind, count(*) FROM leads WHERE city=?"
+    if status != "all":
+        count_sql += " AND status<>'dropped'" if not status else " AND status=?"
+    count_params = [city] + ([status] if status and status != "all" else [])
+    kind_counts = dict(db().execute(count_sql + " GROUP BY kind",
+                                    count_params).fetchall())
+    n_dropped = db().execute(
+        "SELECT count(*) FROM leads WHERE city=? AND status='dropped'",
+        (city,)).fetchone()[0]
     return render_template("city.html", c=c, leads=leads, kind=kind,
                            status=status, assignee=assignee, min_acre=min_acre,
                            site=site, latest_batch=latest_batch,
-                           kind_counts=kind_counts, PURPOSE_LABELS=PURPOSE_LABELS)
+                           kind_counts=kind_counts, n_dropped=n_dropped,
+                           PURPOSE_LABELS=PURPOSE_LABELS)
 
 
 @app.route("/lead/<int:lead_id>", methods=["GET", "POST"])

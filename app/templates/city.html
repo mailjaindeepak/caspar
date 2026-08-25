@@ -17,6 +17,10 @@
 <div class="signal-strip">
   <span class="live">{{ leads|length }} shown</span>
   {% if latest_batch %}<span>refreshed {{ latest_batch }}</span>{% endif %}
+  {% if n_dropped and not status %}
+  <span class="muted small">{{ n_dropped }} dropped hidden —
+    <a href="{{ url_for('city_page', city=c['city'], kind=kind, status='dropped') }}">see why</a></span>
+  {% endif %}
   <span><a href="{{ url_for('directory', city=c['city'], which='people') }}">Decision makers</a> ·
         <a href="{{ url_for('directory', city=c['city'], which='contacts') }}">Contacts</a> ·
         <a href="{{ url_for('directory', city=c['city'], which='gatekeepers') }}">Gatekeepers</a></span>
@@ -25,10 +29,11 @@
 <form class="filters" method="get">
   {% if kind %}<input type="hidden" name="kind" value="{{ kind }}">{% endif %}
   <select name="status" onchange="this.form.submit()">
-    <option value="">All statuses</option>
+    <option value="">Open leads</option>
     {% for s in STATUSES %}
     <option value="{{ s }}" {{ 'selected' if status==s }}>{{ STATUS_LABELS[s] }}</option>
     {% endfor %}
+    <option value="all" {{ 'selected' if status=='all' }}>All, incl. dropped</option>
   </select>
   <select name="assignee" onchange="this.form.submit()">
     <option value="">Anyone</option>
