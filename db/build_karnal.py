@@ -1,7 +1,27 @@
-"""Build caspar.db and load all Karnal Phase-0 data.
+"""Build caspar.db and load all Karnal Phase-0 data. SUPERSEDED — see build_city.py.
 
-Idempotent: drops and reloads Karnal rows on each run.
-Usage: python db/build_karnal.py
+DO NOT RUN THIS. It is kept only as the record of the Phase-0 Karnal build.
+
+Its docstring used to claim "drops and reloads Karnal rows on each run". That is
+false for the whole resolution layer: five of its DELETEs carry no WHERE clause
+and wipe every city, not just Karnal —
+
+    entity_alias  (all name->developer mappings, 7 cities)
+    stakeholder   (the person-level decision-maker bank)
+    entity        (all developer groups, curated tiers and scores)
+    parcel_link   (INCLUDING the hand-confirmed method='manual' links)
+    parcel        (INCLUDING DTCP GIS polygons and centroids)
+
+Running it today would destroy ~1,500 researched people, every curated entity
+tier, and the manual links that keep already-launched parcels out of the ripe
+list — silently resurrecting them as leads. That is the exact failure mode
+CLAUDE.md rule 3 and the WEEKLY_REFRESH preservation notes exist to prevent.
+
+Use `python db/build_city.py karnal` instead: it is city-scoped and preserves
+REP-I enrichment, GIS geometry and manual parcel links across a rebuild.
+
+If you genuinely need the Phase-0 behaviour, back up db/caspar.db first and pass
+--wipe-all-cities to acknowledge what it does.
 """
 import csv
 import re
@@ -165,6 +185,9 @@ LOCALITIES = [
 
 
 def load_entities(cx: sqlite3.Connection) -> None:
+    # DANGER: no WHERE clause — these wipe ALL 7 cities, not just Karnal.
+    # stakeholder alone holds the researched decision-maker bank. Guarded at
+    # main(); if you call this function directly you bypass that guard.
     cx.execute("DELETE FROM entity_alias")
     cx.execute("DELETE FROM stakeholder")
     cx.execute("DELETE FROM entity")
@@ -256,6 +279,9 @@ def load_entities(cx: sqlite3.Connection) -> None:
 def load_parcels_and_links(cx: sqlite3.Connection) -> None:
     """Parcels from licences (geometry filled by fetch_polygons.py);
     links from the Phase-0 licence↔RERA mapping."""
+    # DANGER: no WHERE clause — all cities. Takes the hand-confirmed
+    # method='manual' links and the DTCP GIS geometry with it; losing a manual
+    # link resurrects an already-launched parcel into the ripe lead list.
     cx.execute("DELETE FROM parcel_link")
     cx.execute("DELETE FROM parcel")
     for lc, dev, sector, dev_plan, area in cx.execute(
@@ -308,7 +334,34 @@ def load_gatekeepers(cx: sqlite3.Connection) -> None:
     print(f"gatekeepers: {n}")
 
 
+def _refuse_unless_acknowledged() -> None:
+    """This script's unscoped DELETEs wipe every city's resolution layer."""
+    if "--wipe-all-cities" in sys.argv:
+        return
+    if DB.exists():
+        cx = sqlite3.connect(DB)
+        counts = {t: cx.execute(f"SELECT count(*) FROM {t}").fetchone()[0]
+                  for t in ("stakeholder", "entity", "entity_alias", "parcel")}
+        manual = cx.execute("SELECT count(*) FROM parcel_link "
+                            "WHERE method='manual'").fetchone()[0]
+        cx.close()
+        at_risk = (f"{counts['stakeholder']} people, {counts['entity']} entities, "
+                   f"{counts['entity_alias']} aliases, {counts['parcel']} parcels "
+                   f"and {manual} hand-confirmed parcel links")
+    else:
+        at_risk = "the whole resolution layer"
+    sys.exit(
+        "REFUSING TO RUN — build_karnal.py is superseded by build_city.py.\n\n"
+        f"  It would delete {at_risk}\n"
+        "  across ALL 7 cities, not just Karnal. Losing the manual links\n"
+        "  resurrects already-launched parcels into the ripe lead list.\n\n"
+        "  Use instead:  python db/build_city.py karnal\n\n"
+        "  If you really mean it: back up db/caspar.db, then re-run with\n"
+        "  --wipe-all-cities.")
+
+
 def main() -> None:
+    _refuse_unless_acknowledged()
     DB.parent.mkdir(exist_ok=True)
     cx = sqlite3.connect(DB)
     cx.executescript((ROOT / "db" / "schema.sql").read_text(encoding="utf-8"))
