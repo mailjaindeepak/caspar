@@ -67,6 +67,9 @@ td a { font-weight: 500; }
 .badge.site-vacant { background: var(--good-bg); color: var(--good); }
 .badge.site-under_construction { background: var(--warn-bg); color: var(--warn); }
 .badge.site-operating { background: var(--accent-soft); color: #2456c4; }
+.badge.verify-verified { background: var(--good-bg); color: var(--good); }
+.badge.verify-probable { background: var(--warn-bg); color: var(--warn); }
+.badge.verify-unverified { background: #f2f4f8; color: var(--faint); }
 .prio { font-weight: 700; color: var(--accent); font-size: 14px; }
 form.inline { display: inline; }
 input, select, textarea, button {

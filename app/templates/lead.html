@@ -50,9 +50,41 @@
   </form>
 </div>
 
+{% set research = details.get('contact_research') or {} %}
+{% set people = research.get('people') or [] %}
+{% if people %}
+<div class="card">
+  <h2 style="margin-top:0">Decision makers</h2>
+  <table>
+    <tr><th>Name</th><th>Designation</th><th>Email</th><th>Phone</th><th>LinkedIn</th><th>Verified</th></tr>
+    {% for p in people %}
+    <tr>
+      <td><b>{{ p.get('name') }}</b>{% if p.get('din') %}<div class="muted small">DIN {{ p['din'] }}</div>{% endif %}</td>
+      <td class="small">{{ p.get('role') or '—' }}</td>
+      <td class="small">{% if p.get('email') %}<a href="mailto:{{ p['email'] }}">{{ p['email'] }}</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+      <td class="small">{% if p.get('phone') %}{{ p['phone'] }}{% else %}<span class="muted">—</span>{% endif %}</td>
+      <td class="small">{% if p.get('linkedin') %}<a href="{{ p['linkedin'] }}" target="_blank" rel="noopener">profile</a>{% else %}<span class="muted">—</span>{% endif %}</td>
+      <td><span class="badge verify-{{ p.get('verification') or 'unverified' }}">{{ (p.get('verification') or 'unverified')|title }}</span>
+        {% if p.get('verified_at') %}<div class="muted small">{{ p['verified_at'] }}</div>{% endif %}</td>
+    </tr>
+    {% if p.get('note') %}
+    <tr><td colspan="6" class="muted small" style="padding-top:0">{{ p['note'] }}</td></tr>
+    {% endif %}
+    {% endfor %}
+  </table>
+  {% if research.get('company_cin') %}<div class="small" style="margin-top:8px"><b>CIN:</b> {{ research['company_cin'] }}</div>{% endif %}
+  {% if research.get('notes') %}<div class="small muted" style="margin-top:6px">{{ research['notes'] }}</div>{% endif %}
+  {% if research.get('sources') %}
+  <div class="small muted" style="margin-top:6px"><b>Sources:</b>
+    {% for s in research['sources'] %}{% if s.startswith('http') %}<a href="{{ s }}" target="_blank" rel="noopener">{{ s|truncate(60) }}</a>{% else %}{{ s }}{% endif %}{% if not loop.last %} · {% endif %}{% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endif %}
+
 {% if lead['contact_emails'] or lead['contact_phones'] %}
 <div class="card">
-  <h2 style="margin-top:0">Contacts</h2>
+  <h2 style="margin-top:0">Contacts{% if people %} <span class="muted small">— company-level pool, not attributed to a person</span>{% endif %}</h2>
   {% if lead['contact_emails'] %}<div><b>Email:</b> {{ lead['contact_emails'] }}</div>{% endif %}
   {% if lead['contact_phones'] %}<div><b>Phone:</b> {{ lead['contact_phones'] }}</div>{% endif %}
 </div>
@@ -62,7 +94,7 @@
   <h2 style="margin-top:0">Details</h2>
   <dl class="kv">
     {% for k, v in details.items() %}
-      {% if v %}<dt>{{ k }}</dt>
+      {% if v and k not in ('contact_research', 'polygon_latlng') %}<dt>{{ k }}</dt>
       <dd>{% if v is string and v.startswith('http') %}<a href="{{ v }}" target="_blank" rel="noopener">{{ v }}</a>{% else %}{{ v }}{% endif %}</dd>{% endif %}
     {% endfor %}
   </dl>

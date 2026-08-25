@@ -17,7 +17,8 @@
 <div class="signal-strip">
   <span class="live">{{ leads|length }} shown</span>
   {% if latest_batch %}<span>refreshed {{ latest_batch }}</span>{% endif %}
-  <span><a href="{{ url_for('directory', city=c['city'], which='contacts') }}">Contacts</a> ·
+  <span><a href="{{ url_for('directory', city=c['city'], which='people') }}">Decision makers</a> ·
+        <a href="{{ url_for('directory', city=c['city'], which='contacts') }}">Contacts</a> ·
         <a href="{{ url_for('directory', city=c['city'], which='gatekeepers') }}">Gatekeepers</a></span>
 </div>
 

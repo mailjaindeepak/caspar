@@ -400,7 +400,8 @@ def lead_map(lead_id):
 def directory(city, which):
     c = city_or_403(g.user, city)
     fname = {"gatekeepers": "gatekeepers.csv",
-             "contacts": "promoter_contacts.csv"}.get(which)
+             "contacts": "promoter_contacts.csv",
+             "people": "people.csv"}.get(which)
     if not fname:
         abort(404)
     rows = sync_leads.read_csv(ROOT / "outputs" / city / fname)
