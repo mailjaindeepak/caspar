@@ -11,6 +11,8 @@ Run from repo root. Steps in order; each is safe to re-run.
 ```
 python scrapers/dtcp_licences.py        # licence register (the highest-value diff)
 python scrapers/dtcp_pending.py --fetch # PENDING applications (earliest signal)
+python scrapers/dtcp_rejected.py --fetch # REJECTED/returned/withdrawn/lapsed cases —
+                                        # data/licence_rejected.html, parsed by build_city.py
 python scrapers/dtcp_clu.py             # CLU permissions (hospitality channel) — ALL 7 districts,
                                         # last year + this year, merged into data/clu_all.csv and
                                         # each data/<city>/clu_permissions.csv (full history kept)
@@ -24,6 +26,12 @@ count collapses, it may have been taken down; flag it in the report. GET only
 (HEAD redirects to login). A file_no that LEAVES pending and APPEARS in the
 granted register that week = licence granted = the hottest possible signal;
 call it out in the report.
+
+Rejected-register notes: `build_city.py` reloads `licence_application_raw` from
+`data/licence_rejected.html`. If that file is missing the rebuild now keeps the
+existing rows and warns, rather than emptying the lane — but re-fetch it, or the
+lane silently ages. (Until 7 Sep 2026 the path pointed at a Claude session
+scratchpad; when that temp dir was cleaned, every city rebuild crashed.)
 
 CLU notes: the register goes back to the 1990s and `caspar.db` holds the full
 history (backfilled 23 Aug 2026). The weekly run re-fetches only the last two

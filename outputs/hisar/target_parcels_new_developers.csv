@@ -1,4 +1,4 @@
 ﻿licence_no,issue_date,purpose,area_acre,dev_plan,sector,developer_raw,valid_upto_raw,developer_group,tier,score,centroid_lat,centroid_lng,parcel_id,locality_tier,entity_rank,locality_rank,first_seen_year,is_new,is_non_native,hq_city,need_score
-161 OF 2026,10/08/2026,DDJAY-APHP,20.6375,HANSI,2,Vasudha Associates,09/08/2031,Vasudha Associates,C+,,29.098431816692724,75.99162287948143,3112,,1,0,2026,1,,,5
-38 OF 2026,02/03/2026,DDJAY-APHP,9.4625,HISSAR,11,Jindal Prop Infra LLP,01/03/2031,Jindal Prop Infra LLP (SR Jindal Group),B,,29.119298142062437,75.76634428455358,3111,,2,0,2026,1,0,Hisar,4
-32 OF 2026,17/02/2026,DDJAY-APHP,6.15625,HISSAR,39,Deepti Gupta Trading LLP,16/02/2031,"Deepti Gupta Trading LLP (Gupta family, Rishi Nagar)",C+,,29.195930353277852,75.6725072185689,3106,,1,0,2026,1,0,Hisar,4
+161 OF 2026,10/08/2026,DDJAY-APHP,20.6375,HANSI,2,Vasudha Associates,09/08/2031,Vasudha Associates,C+,,29.098431816692724,75.99162287948143,4172,,1,0,2026,1,,,5
+38 OF 2026,02/03/2026,DDJAY-APHP,9.4625,HISSAR,11,Jindal Prop Infra LLP,01/03/2031,Jindal Prop Infra LLP (SR Jindal Group),B,,29.119298142062437,75.76634428455358,4171,,2,0,2026,1,0,Hisar,4
+32 OF 2026,17/02/2026,DDJAY-APHP,6.15625,HISSAR,39,Deepti Gupta Trading LLP,16/02/2031,"Deepti Gupta Trading LLP (Gupta family, Rishi Nagar)",C+,,29.195930353277852,75.6725072185689,4166,,1,0,2026,1,0,Hisar,4

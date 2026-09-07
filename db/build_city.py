@@ -31,8 +31,11 @@ from dtcp_licences import CITY_TOWNS           # noqa: E402
 
 DB = ROOT / "db" / "caspar.db"
 NOW = datetime.now(timezone.utc).isoformat(timespec="seconds")
-REJ_HTML = Path(r"C:\Users\DELL\AppData\Local\Temp\claude\D--working-caspar"
-                r"\09495f6a-677c-4ec7-9afc-91ece79f0690\scratchpad\rej.html")
+# Statewide rejected/returned/withdrawn/lapsed register, refreshed by
+# scrapers/dtcp_rejected.py. Lived in a Claude session scratchpad until
+# 7 Sep 2026 — when that temp dir was cleaned, every city rebuild started
+# failing here. Keep it inside the repo.
+REJ_HTML = ROOT / "data" / "licence_rejected.html"
 
 
 def read_csv(p: Path) -> list[dict]:
@@ -45,6 +48,25 @@ def f(x):
         return float(str(x).strip())
     except (ValueError, TypeError):
         return None
+
+
+def rera_key(r: dict) -> str:
+    """Primary key for rera_raw.
+
+    HARERA prints "Not Issued Yet" in the registration-number column for
+    projects still awaiting a number — one such project per district. That
+    string is not an identifier: keying on it collapsed all seven onto a single
+    row (the last city built won), silently dropping six real projects and
+    misattributing the survivor's district. Fall back to the Temp-ID, which is
+    unique and stable, then to district+name as a last resort.
+    """
+    reg = (r.get("Project Registration Number") or "").strip()
+    if reg and "not issued" not in reg.lower():
+        return reg
+    temp = (r.get("Project Temp-ID") or "").strip()
+    if temp:
+        return temp
+    return f"{(r.get('Project District') or '').strip()}:{(r.get('Project Name') or '').strip()}"
 
 
 def build(cx: sqlite3.Connection, city: str) -> None:
@@ -63,10 +85,18 @@ def build(cx: sqlite3.Connection, city: str) -> None:
              r.get("Sector", ""), r.get("ValidUpto", ""), r["Developer"],
              district, NOW))
 
-    cx.execute("DELETE FROM licence_application_raw WHERE district=?", (district,))
-    soup = BeautifulSoup(REJ_HTML.read_text(encoding="utf-8", errors="ignore"), "lxml")
+    # No register on disk: keep the rows already loaded rather than deleting
+    # them. Silently dropping this lane would look like "no rejected cases".
+    if not REJ_HTML.exists():
+        print(f"  WARNING: {REJ_HTML.name} missing — keeping existing "
+              f"licence_application_raw rows for {district}. "
+              f"Run: python scrapers/dtcp_rejected.py --fetch")
+        soup = None
+    else:
+        cx.execute("DELETE FROM licence_application_raw WHERE district=?", (district,))
+        soup = BeautifulSoup(REJ_HTML.read_text(encoding="utf-8", errors="ignore"), "lxml")
     n_apps = 0
-    for table in soup.find_all("table"):
+    for table in (soup.find_all("table") if soup else []):
         trs = table.find_all("tr")
         if len(trs) < 5:
             continue
@@ -97,7 +127,7 @@ def build(cx: sqlite3.Connection, city: str) -> None:
         sm = re.search(r"SEC(?:TOR)?[\s.\-]*(\d+[A-Z]?)", blob, re.I)
         cx.execute(
             "INSERT OR REPLACE INTO rera_raw VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            (r.get("Project Registration Number", "") or r.get("Project Temp-ID", ""),
+            (rera_key(r),
              r.get("Project Temp-ID", ""), r.get("Project Name", ""),
              r.get("Promoter Name", ""), r.get("Project Address", ""),
              r.get("Project District", ""), r.get("Registered With", ""),
